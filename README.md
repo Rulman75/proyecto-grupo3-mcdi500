@@ -1,48 +1,122 @@
-# Proyecto Grupo 3 — MCDI500
+# Evolución de volúmenes de Residuos generados en Chile 2023-2025
 
-Caracterización computacional de los factores meteorológicos y termodinámicos asociados a la ocurrencia diaria de precipitaciones y eventos de alerta térmica en estaciones meteorológicas de Chile (2021–2025).
+Proyecto del curso **MCDI500 – Programación para la Ciencia de Datos** (Magíster en Ciencia de Datos e Inteligencia Artificial, Universidad Andrés Bello). Grupo 3.
 
 ## Integrantes
-- Madeleine Natalia Magdalena Aguilera Alvear (@Madiaguileraalvear)
-- Victoria Álvarez Pinto (@victoria-eap)
-- Ignacio Peña Pizarro (@Ignacio)
-- Raúl Hormazábal Figueroa (@Rulman75)
+
+| Nombre | Usuario GitHub |
+|---|---|
+| Madeleine Natalia Magdalena Aguilera Alvear (@Madiaguileraalvear)
+| Victoria Álvarez Pinto (@victoria-eap)
+| Ignacio Peña Pizarro (@ignaciopenap)
+| Raúl Hormazábal Figueroa (@Rulman75)
+
+Docente: Dr. Omar Salinas Silva.
+
+## Situación problematizadora
+
+Los establecimientos que generan residuos peligrosos sobre los umbrales de la normativa deben declararlos cada año en el Sistema de Declaración y Seguimiento de Residuos Peligrosos (SIDREP). Cuando un establecimiento deja de aparecer en el registro, no es posible saber, solo con el registro, si cerró, si bajó del umbral de declaración o si dejó de declarar. Esta incertidumbre afecta a:
+
+- **La fiscalización** (Superintendencia del Medio Ambiente y Seremis de Salud), que necesita priorizar qué establecimientos verificar.
+- **La planificación de la capacidad de tratamiento y disposición** (empresas del sector y gobiernos regionales), que es distinta si el volumen proviene de un núcleo estable de generadores o de establecimientos que cambian cada año.
+
+## Pregunta del proyecto
+
+> ¿Qué establecimientos se mantienen como generadores de residuos peligrosos entre 2023, 2024 y 2025, cuánto varía su volumen año a año, y qué parte del cambio total se explica por establecimientos que entran o salen del registro?
+
+**Unidad de observación:** cada fila de la base corresponde a un establecimiento × año × residuo declarado (con su peligrosidad y estado físico), no a un establecimiento. Para seguir a cada establecimiento entre años se usa `id_vu`.
 
 ## Datos
-- **Fuente:** Dirección Meteorológica de Chile (DMC) y Explorador Climático CR2 (`https://climatologia.meteochile.gob.cl` / `https://explorador.cr2.cl`).
-- **Licencia:** Datos Abiertos del Estado de Chile / CC BY 4.0.
-- **Volumen y variables:** 4.500 registros diarios (2021–2025) y 16 variables que cubren los 8 roles analíticos del curso (6 continuas, 2 discretas, 1 binaria, 1 ordinal, 2 nominales, 1 fecha, 2 de alta cardinalidad/texto libre y 1 identificador), con entre 4,5% y 14,2% de valores faltantes reales en sensores.
-- **Ubicación:** El archivo original inmutable se ubica en `F1/data/raw/clima_estaciones_chile_raw.csv` y el conjunto limpio y transformado se exporta en la Fase 2 a `F2/data/processed/clima_estaciones_chile_clean.csv`.
+
+### Fuente
+
+Declaraciones de generación de residuos peligrosos (SIDREP), publicadas por el Ministerio del Medio Ambiente a través del Registro de Emisiones y Transferencias de Contaminantes (RETC) y del portal de datos abiertos del Estado:
+
+- Página del conjunto: https://datos.gob.cl/dataset/generacion-de-residuos-peligrosos
+- Fecha de descarga: 08-11-2026
+- Licencia: Creative Commons Attribution
+
+### Archivos originales (`F1/data/raw/`, no se modifican)
+
+| Año | Archivo | Formato | Filas |
+|---|---|---|---|
+| 2023 | `gen-sidrep-2023-ckan.csv` | CSV separado por `;`, UTF-8 | 38.433 |
+| 2024 | `gen-sidrep-2024-ckan.xlsx` | Excel | 39.518 |
+| 2025 | `ckan_respel_gen_2025.xlsx` | Excel | 40.329 |
+
+### Base maestra (`F1/data/processed/base_maestra_2023_2025.csv`)
+
+Se genera desde los tres archivos originales con el notebook de la Fase 1: **118.280 filas × 22 columnas**. Cada año publica las mismas variables con nombres distintos (por ejemplo, la cantidad se llama `cantidad_kg` en 2023, `cantidad_kilos` en 2024 y `cantidad_transferencia` en 2025), por lo que se homologan los nombres antes de unir.
+
+| Variable | Descripción |
+|---|---|
+| `año` | Año de la declaración |
+| `id_vu` | Identificador del establecimiento (clave para seguirlo entre años) |
+| `rut_razon_social` | RUT de la empresa titular |
+| `id_ciiu4`, `ciiu4` | Código y nombre de actividad económica CIIU (4 dígitos) |
+| `id_ciiu6`, `ciiu6` | Código y nombre de actividad económica CIIU (6 dígitos) |
+| `id_rubro`, `rubro` | Código y nombre del rubro |
+| `codigo_territorial`, `comuna`, `provincia`, `region` | Ubicación administrativa |
+| `latitud`, `longitud` | Coordenadas del establecimiento |
+| `cantidad_kg` | Cantidad declarada del residuo, en kilogramos |
+| `id_peligrosidad`, `peligrosidad` | Característica(s) de peligrosidad; puede tener varias por residuo |
+| `id_lista_a` | Código del residuo según la Lista A |
+| `id_estado_materia`, `estado_materia` | Estado físico: sólido, líquido, lodo o gaseoso |
+
+### Problemas de calidad identificados (a tratar en la Fase 2)
+
+- **Formatos distintos entre años:** nombres de región (3 regiones escritas distinto en 2025), formato del texto de `peligrosidad` (se usará `id_peligrosidad`, que es consistente), dígito extra en `id_ciiu4` en 2024 y mezcla de códigos de comuna antiguos y vigentes en `codigo_territorial`.
+- **Faltantes estructurales:** `id_lista_a` falta en el 6,1% de las filas de 2023 y 2024, y en ninguna de 2025.
+- **118 filas duplicadas exactas:** se revisarán antes de decidir si se eliminan.
+
+### Limitaciones
+
+- El registro incluye solo a los establecimientos obligados a declarar, no a todos los generadores del país.
+- Que un establecimiento deje de aparecer no implica que haya dejado de generar residuos.
 
 ## Estructura del repositorio
-- `F1/` Definición del problema y entorno reproducible (`data/raw`, `data/processed`, `notebooks`, `src`, `docs`)
-- `F2/` Obtención, exploración, limpieza y transformación de datos (`data/processed`, `notebooks`, `src`, `docs`)
-- `F3/` Núcleo algorítmico: programación estructurada, recursiva y POO
-- `F4/` Análisis, visualización y comunicación de resultados
+
+```
+proyecto-grupo3-mcdi500/
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── F1/
+│   ├── F1_creacion_base_maestra.ipynb
+│   └── data/
+│       ├── raw/          # archivos originales, sin modificar
+│       └── processed/    # base maestra generada por el notebook
+├── F2/                   # limpieza y transformación
+├── F3/
+├── F4/
+└── docs/                 # mapa conceptual e informes
+```
 
 ## Requisitos y ejecución
-Python 3.14
+
+Requiere **Python 3.14** y **Git**. Todos los comandos se ejecutan desde la raíz del repositorio.
 
 ```bash
-python -m venv .venv
-source .venv/Scripts/activate      # Windows, Git Bash
-# .venv\Scripts\Activate.ps1       # Windows, PowerShell
-# source .venv/bin/activate        # macOS y Linux
-python -m pip install -r requirements.txt
-nbstripout --install
-python -m ipykernel install --user --name grupo3_mcdi500 --display-name "Python (grupo3-mcdi500)"
+python -m venv .venv                       # 1. crea el entorno virtual del proyecto
+source .venv/Scripts/activate              # 2. lo activa (Windows, Git Bash)
+# source .venv/bin/activate                #    macOS y Linux
+python -m pip install -r requirements.txt  # 3. instala las versiones exactas de las librerías
+nbstripout --install                       # 4. limpia las salidas de los notebooks al hacer commit (cada integrante, una vez)
+python -m ipykernel install --user --name grupo3_mcdi500 --display-name "Python (grupo3-mcdi500)"  # 5. registra el kernel
+python -m jupyter lab                      # 6. abre JupyterLab
 ```
 
-Ejecutar los notebooks en orden desde la raíz del proyecto:
-```bash
-python -m jupyter lab
-```
+Al abrir un notebook, seleccione el kernel **Python (grupo3-mcdi500)**. Los notebooks usan rutas relativas desde la raíz del repositorio y se ejecutan en orden (F1, luego F2).
+
+## Decisiones técnicas
+
+- Los archivos originales se conservan intactos en `F1/data/raw/`; la base maestra se regenera siempre desde ellos con código, nunca se edita a mano.
+- Se seleccionan 22 columnas comunes a los tres años. Se excluyen :
+- La base maestra pasa los requisitos obligatorios del validador del curso.
 
 ## Convención de commits
-Prefijos usados: `docs`, `data`, `feat`, `fix`, `test`. Ver Parte XVIII de la guía.
 
-## Decisiones técnicas (Fases 1 y 2)
-- **Aislamiento y reproducibilidad:** Se aísla el entorno en `.venv` (excluido en `.gitignore`) y se versiona `requirements.txt` para garantizar reproducibilidad entre equipos Windows y macOS.
-- **Higiene de notebooks:** Se activa `nbstripout` para limpiar las salidas JSON de los notebooks antes de cada commit y evitar conflictos de merge, exportando copias ejecutadas en HTML/PDF como evidencia para el informe.
-- **Inmutabilidad del dato crudo:** El archivo `F1/data/raw/clima_estaciones_chile_raw.csv` nunca se sobrescribe; el pipeline de la Fase 2 escribe sus salidas en `F2/data/processed/`.
-- **Descarte de `dropna()` e imputación por grupo:** Eliminar filas con valores faltantes descartaría 1.997 registros (44,4% de la muestra) y sesgaría los eventos de tormenta. Se opta por imputar variables continuas con la mediana agrupada por `macrozona` (dada la presencia de valores atípicos verificados por rango intercuartílico) y registrar banderas binarias de imputación (`_imputado`).
+Prefijos semánticos: `docs:`, `data:`, `feat:`, `fix:`. Ciclo de trabajo: `git pull` → trabajar → `git add` → `git commit` → `git pull` → `git push`.
+
+## Referencias
+
