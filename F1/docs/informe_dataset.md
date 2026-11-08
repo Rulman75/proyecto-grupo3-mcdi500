@@ -1,25 +1,30 @@
 # Informe de Validación del Dataset (Fase 1) — Grupo 3 MCDI500
-- **Archivo evaluado:** `F1\data\raw\clima_estaciones_chile_raw.csv`
-- **Dimensiones:** 4500 filas × 16 columnas
-- **Filas duplicadas exactas:** 0
-- **Rango de valores faltantes en columnas con nulos:** 4,5% a 14.2%
+- **Archivo evaluado:** `F1\data\raw\Base_Maestra_2023_2025.xlsx`
+- **Dimensiones:** 118280 filas × 21 columnas
+- **Filas duplicadas exactas:** 118
+- **Porcentaje máximo de valores faltantes:** 4.03% (`id_lista_a`: 4.764 nulos)
 
 ## Diccionario y Perfil de Variables
 | variable | dtype_pandas | rol_analitico | valores_unicos | nulos_n | nulos_pct | descripcion |
 | --- | --- | --- | --- | --- | --- | --- |
-| id_registro | str | identificador | 4500 | 0 | 0.0 | Código único de estación y fecha (DMC-XXXXXX-YYYYMMDD) |
-| fecha_observacion | str | fecha | 1628 | 0 | 0.0 | Fecha diaria de medición (YYYY-MM-DD, período 2021-2025) |
-| codigo_estacion_comuna | str | alta cardinalidad | 30 | 0 | 0.0 | Código DMC y nombre de la estación/comuna (30 estaciones) |
-| macrozona | str | nominal | 12 | 0 | 0.0 | Macrozona climática de Chile (Norte, Centro, Sur, Austral) |
-| temp_max_c | float64 | continua | 344 | 234 | 5.2 | Temperatura máxima diaria del aire (°C) |
-| temp_min_c | float64 | continua | 265 | 216 | 4.8 | Temperatura mínima diaria del aire (°C) |
-| humedad_relativa_pct | float64 | continua | 731 | 378 | 8.4 | Humedad relativa media diaria (%) |
-| presion_hpa | float64 | continua | 947 | 522 | 11.6 | Presión atmosférica media a nivel de estación (hPa) |
-| velocidad_viento_kmh | float64 | continua | 636 | 638 | 14.2 | Velocidad máxima diaria del viento (km/h) |
-| precipitacion_mm | float64 | continua | 414 | 288 | 6.4 | Precipitación acumulada en 24 horas (mm) |
-| nubosidad_octas | int64 | discreta | 9 | 0 | 0.0 | Cobertura nubosa diaria medida en octavos de cielo (0 a 8 octas) |
-| dias_consecutivos_secos | int64 | discreta | 65 | 0 | 0.0 | Recuento entero de días seguidos sin precipitación significativa |
-| direccion_viento_predominante | str | nominal | 8 | 202 | 4.5 | Punto cardinal de dirección predominante del viento (N, S, SW, etc.) |
-| ocurrencia_lluvia | str | binaria | 2 | 0 | 0.0 | Indicador dicotómico de día lluvioso (Si / No) |
-| nivel_alerta_termica | str | ordinal | 4 | 0 | 0.0 | Escala ordenada de severidad térmica: Normal < Alerta Temprana < Alerta < Alarma |
-| observacion_sinoptica | str | texto libre | 34 | 0 | 0.0 | Reporte descriptivo de la condición sinóptica diaria |
+| año | int64 | fecha | 3 | 0 | 0.0 | Año calendario de la declaración RETC (2023, 2024, 2025) |
+| id_vu | int64 | identificador | 12192 | 0 | 0.0 | Identificador numérico del establecimiento en Ventanilla Única |
+| rut_razon_social | str | alta cardinalidad | 6779 | 0 | 0.0 | RUT tributario de la organización declarante (6.779 empresas) |
+| id_ciiu4 | str | alta cardinalidad | 546 | 1 | 0.0 | Código CIIU4 de actividad económica a 4 dígitos (546 códigos) |
+| ciiu4 | str | texto libre | 335 | 1 | 0.0 | Glosa descriptiva de la actividad económica según CIIU4 |
+| id_ciiu6 | str | alta cardinalidad | 388 | 1 | 0.0 | Código CIIU6 de actividad económica a 6 dígitos (388 códigos) |
+| ciiu6 | str | texto libre | 388 | 1 | 0.0 | Glosa descriptiva detallada de la actividad económica según CIIU6 |
+| id_rubro | int64 | discreta | 20 | 0 | 0.0 | Código entero del rubro económico RETC (0 a 20) |
+| rubro | str | nominal | 19 | 1 | 0.0 | Categoría de rubro industrial o sector productivo (19 rubros) |
+| codigo_territorial | int64 | discreta | 380 | 0 | 0.0 | Código Único Territorial (CUT) comunal entero (380 códigos) |
+| comuna | str | alta cardinalidad | 344 | 0 | 0.0 | Nombre de la comuna del establecimiento generador (344 comunas) |
+| provincia | str | nominal | 58 | 0 | 0.0 | Nombre de la provincia administrativa (58 provincias) |
+| region | str | nominal | 19 | 0 | 0.0 | Región administrativa de Chile (16 regiones; 19 etiquetas en crudo) |
+| latitud | float64 | continua | 20120 | 64 | 0.05 | Latitud geográfica del establecimiento en grados decimales |
+| longitud | float64 | continua | 20112 | 64 | 0.05 | Longitud geográfica del establecimiento en grados decimales |
+| cantidad_kg | float64 | continua | 13488 | 21 | 0.02 | Masa anual declarada de residuo peligroso en kilogramos (kg) |
+| id_peligrosidad | str | ordinal | 587 | 0 | 0.0 | Códigos de característica de peligrosidad D.S. N° 148/2003 |
+| peligrosidad | str | texto libre | 812 | 0 | 0.0 | Glosa de característica(s) de peligrosidad declaradas |
+| id_lista_a | str | nominal | 59 | 4764 | 4.03 | Código de clasificación Lista A del D.S. N° 148/2003 MINSAL |
+| id_estado_materia | int64 | ordinal | 4 | 0 | 0.0 | Código de estado físico de agregación (1=sólido, 2=líquido, 3=gaseoso, 4=lodo) |
+| estado_materia | str | nominal | 4 | 0 | 0.0 | Estado físico del residuo (sólido, líquido, lodo, gaseoso) |

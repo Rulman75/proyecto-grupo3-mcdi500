@@ -1,6 +1,6 @@
 # Proyecto Grupo 3 — MCDI500
 
-Caracterización computacional de los factores meteorológicos y termodinámicos asociados a la ocurrencia diaria de precipitaciones y eventos de alerta térmica en estaciones meteorológicas de Chile (2021–2025).
+Caracterización computacional y análisis territorial-sectorial de las declaraciones de generación de residuos peligrosos en Chile durante el período 2023–2025 (Sistema de Declaración y Seguimiento de Residuos Peligrosos, SIDREP / RETC).
 
 ## Integrantes
 - Madeleine Natalia Magdalena Aguilera Alvear (@Madiaguileraalvear)
@@ -9,10 +9,10 @@ Caracterización computacional de los factores meteorológicos y termodinámicos
 - Raúl Hormazábal Figueroa (@Rulman75)
 
 ## Datos
-- **Fuente:** Dirección Meteorológica de Chile (DMC) y Explorador Climático CR2 (`https://climatologia.meteochile.gob.cl` / `https://explorador.cr2.cl`).
+- **Fuente:** Registro de Emisiones y Transferencias de Contaminantes (RETC) — Ministerio del Medio Ambiente de Chile (`https://datosretc.mma.gob.cl`).
 - **Licencia:** Datos Abiertos del Estado de Chile / CC BY 4.0.
-- **Volumen y variables:** 4.500 registros diarios (2021–2025) y 16 variables que cubren los 8 roles analíticos del curso (6 continuas, 2 discretas, 1 binaria, 1 ordinal, 2 nominales, 1 fecha, 2 de alta cardinalidad/texto libre y 1 identificador), con entre 4,5% y 14,2% de valores faltantes reales en sensores.
-- **Ubicación:** El archivo original inmutable se ubica en `F1/data/raw/clima_estaciones_chile_raw.csv` y el conjunto limpio y transformado se exporta en la Fase 2 a `F2/data/processed/clima_estaciones_chile_clean.csv`.
+- **Volumen y variables:** 118.280 registros anuales de declaración (2023–2025) y 21 variables que cubren los roles analíticos del curso (continuas, discretas, ordinales, nominales, fecha/tiempo, alta cardinalidad, texto libre e identificador), con 118 filas duplicadas exactas, inconsistencias de codificación interanual en regiones (19 etiquetas para 16 regiones) y peligrosidades (812 variantes), pérdida de punto decimal en coordenadas del año 2024 y hasta 4,03% de valores nulos en `id_lista_a`.
+- **Ubicación:** El archivo original inmutable se ubica en `F1/data/raw/Base_Maestra_2023_2025.xlsx` y el conjunto limpio y transformado se exporta en la Fase 2 a `F2/data/processed/base_maestra_2023_2025_clean.csv`.
 
 ## Estructura del repositorio
 - `F1/` Definición del problema y entorno reproducible (`data/raw`, `data/processed`, `notebooks`, `src`, `docs`)
@@ -42,7 +42,7 @@ python -m jupyter lab
 Prefijos usados: `docs`, `data`, `feat`, `fix`, `test`. Ver Parte XVIII de la guía.
 
 ## Decisiones técnicas (Fases 1 y 2)
-- **Aislamiento y reproducibilidad:** Se aísla el entorno en `.venv` (excluido en `.gitignore`) y se versiona `requirements.txt` para garantizar reproducibilidad entre equipos Windows y macOS.
+- **Aislamiento y reproducibilidad:** Se aísla el entorno en `.venv` (excluido en `.gitignore`) y se versiona `requirements.txt` (incluyendo `openpyxl` para lectura de `.xlsx`) para garantizar reproducibilidad entre equipos Windows y macOS.
 - **Higiene de notebooks:** Se activa `nbstripout` para limpiar las salidas JSON de los notebooks antes de cada commit y evitar conflictos de merge, exportando copias ejecutadas en HTML/PDF como evidencia para el informe.
-- **Inmutabilidad del dato crudo:** El archivo `F1/data/raw/clima_estaciones_chile_raw.csv` nunca se sobrescribe; el pipeline de la Fase 2 escribe sus salidas en `F2/data/processed/`.
-- **Descarte de `dropna()` e imputación por grupo:** Eliminar filas con valores faltantes descartaría 1.997 registros (44,4% de la muestra) y sesgaría los eventos de tormenta. Se opta por imputar variables continuas con la mediana agrupada por `macrozona` (dada la presencia de valores atípicos verificados por rango intercuartílico) y registrar banderas binarias de imputación (`_imputado`).
+- **Inmutabilidad del dato crudo:** El archivo `F1/data/raw/Base_Maestra_2023_2025.xlsx` nunca se sobrescribe; el pipeline de la Fase 2 escribe sus salidas en `F2/data/processed/`.
+- **Depuración interanual e imputación por grupo:** Al consolidar los períodos 2023, 2024 y 2025 se eliminan 118 duplicados exactos, se normalizan las 16 regiones de Chile y las categorías de peligrosidad (de 812 a 93 combinaciones canónicas), se rescata la escala decimal de las coordenadas geográficas del año 2024 y se imputan los valores faltantes mediante la mediana agrupada por `region` (numéricas) y moda por `id_rubro` (categóricas) con banderas binarias `_imputado`, evitando perder 5.037 declaraciones (4,26%) con `dropna()`.
