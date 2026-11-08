@@ -6,10 +6,10 @@ Proyecto del curso **MCDI500 – Programación para la Ciencia de Datos** (Magí
 
 | Nombre | Usuario GitHub |
 |---|---|
-| Madeleine Natalia Magdalena Aguilera Alvear (@Madiaguileraalvear)
-| Victoria Álvarez Pinto (@victoria-eap)
-| Ignacio Peña Pizarro (@ignaciopenap)
-| Raúl Hormazábal Figueroa (@Rulman75)
+| Madeleine Natalia Magdalena Aguilera Alvear |@Madiaguileraalvear|
+| Victoria Álvarez Pinto |@victoria-eap|
+| Ignacio Peña Pizarro |@ignaciopenap|
+| Raúl Hormazábal Figueroa |@Rulman75|
 
 Docente: Dr. Omar Salinas Silva.
 
