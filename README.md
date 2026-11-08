@@ -1,48 +1,134 @@
-# Proyecto Grupo 3 — MCDI500
+# Evolución de volúmenes de Residuos generados en Chile 2023-2025
 
-Caracterización computacional y análisis territorial-sectorial de las declaraciones de generación de residuos peligrosos en Chile durante el período 2023–2025 (Sistema de Declaración y Seguimiento de Residuos Peligrosos, SIDREP / RETC).
+Proyecto del curso **MCDI500 – Programación para la Ciencia de Datos** (Magíster en Ciencia de Datos e Inteligencia Artificial, Universidad Andrés Bello). Grupo 3.
 
 ## Integrantes
-- Madeleine Natalia Magdalena Aguilera Alvear (@Madiaguileraalvear)
-- Victoria Álvarez Pinto (@victoria-eap)
-- Ignacio Peña Pizarro (@Ignacio)
-- Raúl Hormazábal Figueroa (@Rulman75)
+
+| Nombre | Usuario GitHub |
+|---|---|
+| Madeleine Natalia Magdalena Aguilera Alvear | `@Madiaguileraalvear` |
+| Victoria Álvarez Pinto | `@victoria-eap` |
+| Ignacio Peña Pizarro | `@ignaciopenap` |
+| Raúl Hormazábal Figueroa | `@Rulman75` |
+
+Docente: Dr. Omar Salinas Silva.
+
+## Situación problematizadora
+
+Los establecimientos que generan residuos peligrosos sobre los umbrales de la normativa deben declararlos cada año en el Sistema de Declaración y Seguimiento de Residuos Peligrosos (SIDREP). Cuando un establecimiento deja de aparecer en el registro, no es posible saber, solo con el registro, si cerró, si bajó del umbral de declaración o si dejó de declarar. Esta incertidumbre afecta a:
+
+- **La fiscalización** (Superintendencia del Medio Ambiente y Seremis de Salud), que necesita priorizar qué establecimientos verificar.
+- **La planificación de la capacidad de tratamiento y disposición** (empresas del sector y gobiernos regionales), que es distinta si el volumen proviene de un núcleo estable de generadores o de establecimientos que cambian cada año.
+
+## Pregunta del proyecto
+
+> ¿Qué establecimientos se mantienen como generadores de residuos peligrosos entre 2023, 2024 y 2025, cuánto varía su volumen año a año, y qué parte del cambio total se explica por establecimientos que entran o salen del registro?
+
+**Unidad de observación:** cada fila de la base corresponde a un establecimiento × año × residuo declarado (con su peligrosidad y estado físico), no a un establecimiento. Para seguir a cada establecimiento entre años se usa `id_vu`.
 
 ## Datos
-- **Fuente:** Registro de Emisiones y Transferencias de Contaminantes (RETC) — Ministerio del Medio Ambiente de Chile (`https://datosretc.mma.gob.cl`).
-- **Licencia:** Datos Abiertos del Estado de Chile / CC BY 4.0.
-- **Volumen y variables:** 118.280 registros anuales de declaración (2023–2025) y 21 variables que cubren los roles analíticos del curso (continuas, discretas, ordinales, nominales, fecha/tiempo, alta cardinalidad, texto libre e identificador), con 118 filas duplicadas exactas, inconsistencias de codificación interanual en regiones (19 etiquetas para 16 regiones) y peligrosidades (812 variantes), pérdida de punto decimal en coordenadas del año 2024 y hasta 4,03% de valores nulos en `id_lista_a`.
-- **Ubicación:** El archivo original inmutable se ubica en `F1/data/raw/Base_Maestra_2023_2025.xlsx` y el conjunto limpio y transformado se exporta en la Fase 2 a `F2/data/processed/base_maestra_2023_2025_clean.csv`.
+
+### Fuente
+
+Declaraciones de generación de residuos peligrosos (SIDREP), publicadas por el Ministerio del Medio Ambiente a través del Registro de Emisiones y Transferencias de Contaminantes (RETC) y del portal de datos abiertos del Estado:
+
+- Página del conjunto: https://datos.gob.cl/dataset/generacion-de-residuos-peligrosos
+- Fecha de descarga: 08-11-2026
+- Licencia: Creative Commons Attribution (CC BY 4.0)
+
+### Archivos originales y Base Maestra (`F1/data/raw/Base_Maestra_2023_2025.xlsx`)
+
+| Año | Archivo origen RETC | Formato original | Filas |
+|---|---|---|---|
+| 2023 | `gen-sidrep-2023-ckan.csv` | CSV separado por `;`, UTF-8 | 38.433 |
+| 2024 | `gen-sidrep-2024-ckan.xlsx` | Excel | 39.518 |
+| 2025 | `ckan_respel_gen_2025.xlsx` | Excel | 40.329 |
+| **Total consolidado** | **`F1/data/raw/Base_Maestra_2023_2025.xlsx`** | **Excel (`.xlsx`)** | **118.280** |
+
+La base maestra consolidada cuenta con **118.280 filas × 21 columnas** comunes homologadas entre los tres años (por ejemplo, la cantidad se llama `cantidad_kg` en 2023, `cantidad_kilos` en 2024 y `cantidad_transferencia` en 2025).
+
+| Variable | Descripción |
+|---|---|
+| `año` | Año de la declaración (`2023`, `2024`, `2025`) |
+| `id_vu` | Identificador del establecimiento en Ventanilla Única (clave para seguirlo entre años) |
+| `rut_razon_social` | RUT de la empresa titular |
+| `id_ciiu4`, `ciiu4` | Código y nombre de actividad económica CIIU (4 dígitos) |
+| `id_ciiu6`, `ciiu6` | Código y nombre de actividad económica CIIU (6 dígitos) |
+| `id_rubro`, `rubro` | Código y nombre del rubro productivo |
+| `codigo_territorial`, `comuna`, `provincia`, `region` | Ubicación administrativa |
+| `latitud`, `longitud` | Coordenadas geográficas del establecimiento |
+| `cantidad_kg` | Cantidad declarada del residuo, en kilogramos (`kg`) |
+| `id_peligrosidad`, `peligrosidad` | Característica(s) de peligrosidad; puede tener varias por residuo |
+| `id_lista_a` | Código del residuo según la Lista A (D.S. N° 148/2003 MINSAL) |
+| `id_estado_materia`, `estado_materia` | Estado físico: sólido, líquido, lodo o gaseoso |
+
+### Problemas de calidad identificados (a tratar en la Fase 2)
+
+- **Formatos distintos entre años:** nombres de región (3 regiones escritas distinto en 2025, generando 19 etiquetas para 16 regiones), formato del texto de `peligrosidad` (812 variantes entre 2023–2024 y 2025), dígito extra en `id_ciiu4` en 2024 (`546` códigos que se reducen al truncar a 5 caracteres alfanuméricos), pérdida de separador decimal en las coordenadas `latitud` y `longitud` de 2024, y mezcla de códigos de comuna antiguos y vigentes en `codigo_territorial`.
+- **Faltantes estructurales:** `id_lista_a` falta en el 6,1% de las filas de 2023 y 2024 (`4.764` nulos = `4,03%` del total), y en ninguna de 2025; además existen nulos puntuales en `latitud`/`longitud` (`64`), `cantidad_kg` (`21`) y `rubro`/`ciiu` (`1`).
+- **118 filas duplicadas exactas:** se depuran en la Fase 2 dejando `118.162` declaraciones únicas.
+
+### Limitaciones
+
+- El registro incluye solo a los establecimientos obligados a declarar, no a todos los generadores del país.
+- Que un establecimiento deje de aparecer no implica que haya dejado de generar residuos.
 
 ## Estructura del repositorio
-- `F1/` Definición del problema y entorno reproducible (`data/raw`, `data/processed`, `notebooks`, `src`, `docs`)
-- `F2/` Obtención, exploración, limpieza y transformación de datos (`data/processed`, `notebooks`, `src`, `docs`)
-- `F3/` Núcleo algorítmico: programación estructurada, recursiva y POO
-- `F4/` Análisis, visualización y comunicación de resultados
+
+```
+proyecto-grupo3-mcdi500/
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── F1/
+│   ├── notebooks/
+│   │   └── F1_Definicion.ipynb
+│   ├── docs/
+│   │   ├── informe_dataset.md
+│   │   └── F1_Definicion.html
+│   └── data/
+│       ├── raw/          # Base_Maestra_2023_2025.xlsx (intacto, sin modificar)
+│       └── processed/
+├── F2/                   # limpieza, rescate interanual, imputación y transformación
+│   ├── notebooks/
+│   │   └── F2_Preprocesamiento.ipynb
+│   ├── src/
+│   │   └── preprocesamiento.py
+│   ├── docs/
+│   │   └── bitacora_f2.md
+│   └── data/
+│       └── processed/    # base_maestra_2023_2025_clean.csv
+├── F3/
+└── F4/
+```
 
 ## Requisitos y ejecución
-Python 3.14
+
+Requiere **Python 3.14** y **Git**. Todos los comandos se ejecutan desde la raíz del repositorio.
 
 ```bash
-python -m venv .venv
-source .venv/Scripts/activate      # Windows, Git Bash
-# .venv\Scripts\Activate.ps1       # Windows, PowerShell
-# source .venv/bin/activate        # macOS y Linux
-python -m pip install -r requirements.txt
-nbstripout --install
-python -m ipykernel install --user --name grupo3_mcdi500 --display-name "Python (grupo3-mcdi500)"
+python -m venv .venv                       # 1. crea el entorno virtual del proyecto
+source .venv/Scripts/activate              # 2. lo activa (Windows, Git Bash)
+# source .venv/bin/activate                #    macOS y Linux
+python -m pip install -r requirements.txt  # 3. instala las versiones exactas de las librerías
+nbstripout --install                       # 4. limpia las salidas de los notebooks al hacer commit (cada integrante, una vez)
+python -m ipykernel install --user --name grupo3_mcdi500 --display-name "Python (grupo3-mcdi500)"  # 5. registra el kernel
+python -m jupyter lab                      # 6. abre JupyterLab
 ```
 
-Ejecutar los notebooks en orden desde la raíz del proyecto:
-```bash
-python -m jupyter lab
-```
+Al abrir un notebook, seleccione el kernel **Python (grupo3-mcdi500)**. Los notebooks usan rutas relativas desde la raíz del repositorio y se ejecutan en orden (`F1/notebooks/F1_Definicion.ipynb`, luego `F2/notebooks/F2_Preprocesamiento.ipynb`).
+
+## Decisiones técnicas
+
+- Los datos originales se conservan intactos en `F1/data/raw/Base_Maestra_2023_2025.xlsx`; el dataset procesado se exporta en `F2/data/processed/base_maestra_2023_2025_clean.csv`.
+- Se seleccionan las 21 columnas comunes homologadas entre los tres años (excluyendo columnas administrativas no transversales como razón social textual o folios internos).
+- La base maestra pasa todos los requisitos obligatorios del validador del curso (`118.280 filas`, `21 columnas`, múltiples roles analíticos y presencia real de valores faltantes y atípicos).
 
 ## Convención de commits
-Prefijos usados: `docs`, `data`, `feat`, `fix`, `test`. Ver Parte XVIII de la guía.
 
-## Decisiones técnicas (Fases 1 y 2)
-- **Aislamiento y reproducibilidad:** Se aísla el entorno en `.venv` (excluido en `.gitignore`) y se versiona `requirements.txt` (incluyendo `openpyxl` para lectura de `.xlsx`) para garantizar reproducibilidad entre equipos Windows y macOS.
-- **Higiene de notebooks:** Se activa `nbstripout` para limpiar las salidas JSON de los notebooks antes de cada commit y evitar conflictos de merge, exportando copias ejecutadas en HTML/PDF como evidencia para el informe.
-- **Inmutabilidad del dato crudo:** El archivo `F1/data/raw/Base_Maestra_2023_2025.xlsx` nunca se sobrescribe; el pipeline de la Fase 2 escribe sus salidas en `F2/data/processed/`.
-- **Depuración interanual e imputación por grupo:** Al consolidar los períodos 2023, 2024 y 2025 se eliminan 118 duplicados exactos, se normalizan las 16 regiones de Chile y las categorías de peligrosidad (de 812 a 93 combinaciones canónicas), se rescata la escala decimal de las coordenadas geográficas del año 2024 y se imputan los valores faltantes mediante la mediana agrupada por `region` (numéricas) y moda por `id_rubro` (categóricas) con banderas binarias `_imputado`, evitando perder 5.037 declaraciones (4,26%) con `dropna()`.
+Prefijos semánticos: `docs:`, `data:`, `feat:`, `fix:`, `test:`. Ciclo de trabajo: `git pull` → trabajar → `git add` → `git commit` → `git pull` → `git push`.
+
+## Referencias
+
+- Ministerio del Medio Ambiente de Chile (MMA). (2026). *Registro de Emisiones y Transferencias de Contaminantes (RETC) — Generación de Residuos Peligrosos SIDREP 2023–2025*. Portal de Datos Abiertos del Estado de Chile (`https://datos.gob.cl/dataset/generacion-de-residuos-peligrosos`).
+- Ministerio de Salud de Chile (MINSAL). (2003). *Decreto Supremo N° 148/2003: Reglamento Sanitario sobre Manejo de Residuos Peligrosos*.
