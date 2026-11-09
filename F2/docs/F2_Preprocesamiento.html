@@ -7856,13 +7856,6 @@ a.anchor-link {
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>Matplotlib is building the font cache; this may take a moment.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[OK] Dataset original cargado: 118280 filas x 21 columnas
 </pre>
@@ -8556,7 +8549,7 @@ Comparación de estrategias sobre 'latitud':
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>C:\Users\Usuario\AppData\Local\Temp\ipykernel_1652\2691718633.py:28: FutureWarning: 
+<pre>C:\Users\raulh\AppData\Local\Temp\ipykernel_21544\2691718633.py:28: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `y` variable to `hue` and set `legend=False` for the same effect.
 
@@ -8972,7 +8965,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ab755e0f-f1e5-477c-a26c-7f15269d762e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=10">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8982,7 +8975,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=31a18894-635d-4279-b7b0-df2f394c65c1">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=11">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9054,7 +9047,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=05478e7f-6f7e-4242-96dc-80b20d6d4d85">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=12">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9107,6 +9100,230 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 [OK] Bitácora exportada en: F2\docs\bitacora_f2.md
 </pre>
 </div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ea1ef531-8174-443c-a4a5-fe9251c86633">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># 7. PRUEBAS UNITARIAS (NORMAL, LÍMITE Y EXCEPCIONES) Y RECURSIVIDAD (ID 2.1)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">F2.src.preprocesamiento</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prep</span>
+<span class="n">SEMILLA</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="c1"># 7.1 Pruebas de funciones en caso normal, caso límite y captura de excepciones</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== 7.1 PRUEBAS DE FUNCIONES (CASO NORMAL, LÍMITE Y EXCEPCIONES) ==="</span><span class="p">)</span>
+<span class="c1"># a) Caso normal: normalización de peligrosidad y rescate de coordenada válida de 2024</span>
+<span class="k">assert</span> <span class="n">prep</span><span class="o">.</span><span class="n">_normalizar_glosa_peligrosidad</span><span class="p">(</span><span class="s2">"tóxico extrínseco; inflamable"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"INFLAMABLE + TOXICO EXTRINSECO"</span>
+<span class="k">assert</span> <span class="n">prep</span><span class="o">.</span><span class="n">_rescatar_valor_coordenada</span><span class="p">(</span><span class="o">-</span><span class="mi">334473014</span><span class="p">,</span> <span class="o">-</span><span class="mf">57.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">17.0</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mf">33.447301</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[OK] Caso normal verificado: normalización léxica y rescate decimal correctos."</span><span class="p">)</span>
+<span class="c1"># b) Caso límite: coordenada irreconciliable fuera de rango y valor nulo en glosa</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">prep</span><span class="o">.</span><span class="n">_rescatar_valor_coordenada</span><span class="p">(</span><span class="mi">999999</span><span class="p">,</span> <span class="o">-</span><span class="mf">57.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">17.0</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">prep</span><span class="o">.</span><span class="n">_normalizar_glosa_peligrosidad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"SIN CLASIFICAR"</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[OK] Caso límite verificado: valores extremos inválidos y NaN manejados sin romper el flujo."</span><span class="p">)</span>
+<span class="c1"># c) Excepciones controladas (try/except): archivo inexistente y DataFrame vacío</span>
+<span class="n">excepciones_capturadas</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">prep</span><span class="o">.</span><span class="n">cargar_datos_seguro</span><span class="p">(</span><span class="s2">"ruta_inexistente_prueba.xlsx"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="n">excepciones_capturadas</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Excepción 1 capturada (FileNotFoundError): </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">prep</span><span class="o">.</span><span class="n">diagnosticar_variables</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="n">excepciones_capturadas</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Excepción 2 capturada (ValueError): </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">excepciones_capturadas</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"Ambas excepciones esperadas debieron capturarse."</span>
+<span class="c1"># 7.2 Recursividad aplicada a metadatos jerárquicos del proyecto (Indicador ID 2.1)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 7.2 RECURSIVIDAD: APLANAMIENTO DE METADATOS ANIDADOS ==="</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">aplanar_metadatos</span><span class="p">(</span><span class="n">diccionario</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">prefijo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Aplana recursivamente un diccionario anidado de profundidad arbitraria</span>
+<span class="sd">    en pares clave-valor separados por punto.</span>
+<span class="sd">    """</span>
+    <span class="n">plano</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">clave</span><span class="p">,</span> <span class="n">valor</span> <span class="ow">in</span> <span class="n">diccionario</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">nueva_clave</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefijo</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">clave</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">prefijo</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">clave</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">plano</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">aplanar_metadatos</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="n">nueva_clave</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">valor</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">plano</span><span class="p">[</span><span class="n">nueva_clave</span><span class="p">]</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">valor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plano</span><span class="p">[</span><span class="n">nueva_clave</span><span class="p">]</span> <span class="o">=</span> <span class="n">valor</span>
+    <span class="k">return</span> <span class="n">plano</span>
+<span class="c1"># Verificación de la función recursiva (casos plano, anidado profundo y vacío)</span>
+<span class="k">assert</span> <span class="n">aplanar_metadatos</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span> <span class="o">==</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s2">"Fallo en caso plano"</span>
+<span class="k">assert</span> <span class="n">aplanar_metadatos</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"b"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"c"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}})</span> <span class="o">==</span> <span class="p">{</span><span class="s2">"a.b.c"</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="s2">"Fallo en anidamiento profundo"</span>
+<span class="k">assert</span> <span class="n">aplanar_metadatos</span><span class="p">({})</span> <span class="o">==</span> <span class="p">{},</span> <span class="s2">"Fallo en caso límite vacío"</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[OK] Función recursiva 'aplanar_metadatos' superó todas las pruebas."</span><span class="p">)</span>
+<span class="n">METADATOS_F2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"proyecto"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"codigo"</span><span class="p">:</span> <span class="s2">"MCDI500"</span><span class="p">,</span>
+        <span class="s2">"grupo"</span><span class="p">:</span> <span class="s2">"Grupo 3"</span><span class="p">,</span>
+        <span class="s2">"fase"</span><span class="p">:</span> <span class="s2">"F2"</span><span class="p">,</span>
+        <span class="s2">"semilla"</span><span class="p">:</span> <span class="n">SEMILLA</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"datos"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"entrada"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"archivo"</span><span class="p">:</span> <span class="s2">"Base_Maestra_2023_2025.xlsx"</span><span class="p">,</span> <span class="s2">"filas"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"columnas"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])},</span>
+        <span class="s2">"salida"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"archivo"</span><span class="p">:</span> <span class="s2">"base_maestra_2023_2025_clean.csv"</span><span class="p">,</span> <span class="s2">"filas"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"columnas"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])},</span>
+    <span class="p">},</span>
+    <span class="s2">"decisiones"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"imputacion"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"numericas"</span><span class="p">:</span> <span class="s2">"mediana por region"</span><span class="p">,</span> <span class="s2">"categoricas"</span><span class="p">:</span> <span class="s2">"moda por id_rubro"</span><span class="p">,</span> <span class="s2">"trazabilidad"</span><span class="p">:</span> <span class="s2">"banderas _imputado"</span><span class="p">},</span>
+        <span class="s2">"escalamiento"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"metodo_elegido"</span><span class="p">:</span> <span class="s2">"RobustScaler"</span><span class="p">,</span> <span class="s2">"motivo"</span><span class="p">:</span> <span class="s2">"16.19</span><span class="si">% o</span><span class="s2">utliers IQR en cantidad_kg"</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">df_metadatos_planos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[{</span><span class="s2">"parametro"</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span> <span class="s2">"valor"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)}</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">aplanar_metadatos</span><span class="p">(</span><span class="n">METADATOS_F2</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_metadatos_planos</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>=== 7.1 PRUEBAS DE FUNCIONES (CASO NORMAL, LÍMITE Y EXCEPCIONES) ===
+[OK] Caso normal verificado: normalización léxica y rescate decimal correctos.
+[OK] Caso límite verificado: valores extremos inválidos y NaN manejados sin romper el flujo.
+[ERROR DE VALIDACIÓN] El archivo no existe en la ruta: ruta_inexistente_prueba.xlsx
+[OK] Excepción 1 capturada (FileNotFoundError): El archivo no existe en la ruta: ruta_inexistente_prueba.xlsx
+[OK] Excepción 2 capturada (ValueError): Se requiere un DataFrame no vacío para diagnosticar variables.
+
+=== 7.2 RECURSIVIDAD: APLANAMIENTO DE METADATOS ANIDADOS ===
+[OK] Función recursiva 'aplanar_metadatos' superó todas las pruebas.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>parametro</th>
+<th>valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>proyecto.codigo</td>
+<td>MCDI500</td>
+</tr>
+<tr>
+<th>1</th>
+<td>proyecto.grupo</td>
+<td>Grupo 3</td>
+</tr>
+<tr>
+<th>2</th>
+<td>proyecto.fase</td>
+<td>F2</td>
+</tr>
+<tr>
+<th>3</th>
+<td>proyecto.semilla</td>
+<td>42</td>
+</tr>
+<tr>
+<th>4</th>
+<td>datos.entrada.archivo</td>
+<td>Base_Maestra_2023_2025.xlsx</td>
+</tr>
+<tr>
+<th>5</th>
+<td>datos.entrada.filas</td>
+<td>118280</td>
+</tr>
+<tr>
+<th>6</th>
+<td>datos.entrada.columnas</td>
+<td>21</td>
+</tr>
+<tr>
+<th>7</th>
+<td>datos.salida.archivo</td>
+<td>base_maestra_2023_2025_clean.csv</td>
+</tr>
+<tr>
+<th>8</th>
+<td>datos.salida.filas</td>
+<td>118162</td>
+</tr>
+<tr>
+<th>9</th>
+<td>datos.salida.columnas</td>
+<td>63</td>
+</tr>
+<tr>
+<th>10</th>
+<td>decisiones.imputacion.numericas</td>
+<td>mediana por region</td>
+</tr>
+<tr>
+<th>11</th>
+<td>decisiones.imputacion.categoricas</td>
+<td>moda por id_rubro</td>
+</tr>
+<tr>
+<th>12</th>
+<td>decisiones.imputacion.trazabilidad</td>
+<td>banderas _imputado</td>
+</tr>
+<tr>
+<th>13</th>
+<td>decisiones.escalamiento.metodo_elegido</td>
+<td>RobustScaler</td>
+</tr>
+<tr>
+<th>14</th>
+<td>decisiones.escalamiento.motivo</td>
+<td>16.19% outliers IQR en cantidad_kg</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2890a094-cbaa-410b-a394-9fe2c6bb29e7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="8.-Reflexi%C3%B3n-T%C3%A9cnica-(Cierre-de-Fase-2)">8. Reflexión Técnica (Cierre de Fase 2)<a class="anchor-link" href="#8.-Reflexi%C3%B3n-T%C3%A9cnica-(Cierre-de-Fase-2)">¶</a></h1><ul>
+<li><strong>Coherencia entre las mediciones y las decisiones adoptadas:</strong> La cuantificación previa de valores atípicos mediante el criterio $1,5 \times \text{RIC}$ demostró que <code>cantidad_kg</code> presenta un <code>16,19%</code> de valores extremos (<code>19.135</code> declaraciones) y una media (<code>16.437,52 kg</code>) 70 veces mayor que su mediana (<code>234,00 kg</code>). Esta evidencia objetiva guió de manera consistente tanto la <strong>imputación por mediana regional</strong> (que alteró la desviación estándar en apenas <code>-0,0080%</code>, frente a perder <code>5.037</code> filas con <code>dropna()</code>) como la elección de <strong><code>RobustScaler</code></strong> frente a <code>MinMaxScaler</code> (el cual comprimía el 75% de los datos en un <code>RIC = 0,0000</code>).</li>
+<li><strong>Aporte al problema de investigación:</strong> La creación de los indicadores longitudinales por <code>id_vu</code> permitió responder preliminarmente la pregunta analizable: de los <code>12.192</code> establecimientos generadores registrados entre 2023 y 2025, un núcleo estable de <strong><code>6.785</code> establecimientos (<code>55,65%</code>)</strong> declara en los tres años consecutivos y explica el <strong><code>83,41%</code> (<code>98.556</code> filas)</strong> de todas las declaraciones de residuos peligrosos del país.</li>
+</ul>
 </div>
 </div>
 </div>

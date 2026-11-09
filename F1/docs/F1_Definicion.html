@@ -7833,34 +7833,10 @@ a.anchor-link {
 <pre>Intérprete: C:\Users\raulh\proyecto-grupo3-mcdi500\.venv\Scripts\python.exe
 Carpeta de trabajo: C:\Users\raulh\proyecto-grupo3-mcdi500
  numpy        2.5.4
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> pandas       3.1.0
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> matplotlib   3.11.2
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> sklearn      1.9.1
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> openpyxl     3.1.5
+ pandas       3.1.0
+ matplotlib   3.11.2
+ sklearn      1.9.1
+ openpyxl     3.1.5
 </pre>
 </div>
 </div>
@@ -8271,6 +8247,215 @@ identificador        1
 [OK] Todos los requisitos verificados. Filas: 118280 | Duplicados exactos: 118 | Máximo de nulos: 4.03% en id_lista_a.
 [OK] Reporte exportado en: F1\docs\informe_dataset.md
 </pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dbb2c176-83e6-4d12-998f-2e6fec2e3ae3">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ==============================================================================</span>
+<span class="c1"># 5. CONTROL DE VERSIONES (CONSULTA A GIT) Y VINCULACIÓN CON EL MAPA CONCEPTUAL</span>
+<span class="c1"># ==============================================================================</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">consultar_git</span><span class="p">(</span><span class="o">*</span><span class="n">argumentos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Ejecuta un comando de Git de solo lectura y devuelve (éxito, salida)."""</span>
+    <span class="k">if</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"git"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"Git no está instalado en el PATH."</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"git"</span><span class="p">,</span> <span class="o">*</span><span class="n">argumentos</span><span class="p">],</span>
+        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="n">ok_rama</span><span class="p">,</span> <span class="n">rama_actual</span> <span class="o">=</span> <span class="n">consultar_git</span><span class="p">(</span><span class="s2">"rev-parse"</span><span class="p">,</span> <span class="s2">"--abbrev-ref"</span><span class="p">,</span> <span class="s2">"HEAD"</span><span class="p">)</span>
+<span class="n">ok_log</span><span class="p">,</span> <span class="n">historial_commits</span> <span class="o">=</span> <span class="n">consultar_git</span><span class="p">(</span><span class="s2">"log"</span><span class="p">,</span> <span class="s2">"--oneline"</span><span class="p">,</span> <span class="s2">"-10"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rama activa en Git : </span><span class="si">{</span><span class="n">rama_actual</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ok_rama</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'No detectada'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Últimos 10 commits verificables del repositorio:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">historial_commits</span> <span class="k">if</span> <span class="n">ok_log</span> <span class="k">else</span> <span class="s2">"Sin historial disponible"</span><span class="p">)</span>
+
+<span class="c1"># Tabla de vinculación con los 6 tipos de elementos del Mapa Conceptual (Criterio 14)</span>
+<span class="n">vinculacion_mapa</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">"Python 3.14, Pandas 3.1, NumPy 2.5, Scikit-Learn 1.9"</span><span class="p">,</span> <span class="s2">"1. Herramientas"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"requirements.txt y celda de verificación de versiones"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Git, GitHub y filtro nbstripout"</span><span class="p">,</span> <span class="s2">"1. Herramientas"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Repositorio Rulman75/proyecto-grupo3-mcdi500 e historial de commits"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Carga segura (try/except) y validación de criterios"</span><span class="p">,</span> <span class="s2">"2. Procesos"</span><span class="p">,</span> <span class="s2">"Implementado (F1)"</span><span class="p">,</span> <span class="s2">"F1/notebooks/F1_Definicion.ipynb y F1/docs/informe_dataset.md"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Limpieza interanual, rescate 2024, imputación y RobustScaler"</span><span class="p">,</span> <span class="s2">"2. Procesos"</span><span class="p">,</span> <span class="s2">"Implementado (F2)"</span><span class="p">,</span> <span class="s2">"F2/src/preprocesamiento.py y F2/notebooks/F2_Preprocesamiento.ipynb"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Entorno .venv, kernel grupo3_mcdi500, semilla 42 y pathlib"</span><span class="p">,</span> <span class="s2">"3. Flujo reproducible"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Celda 1 de ambos notebooks y ejecución cruzada en 4 equipos"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Mediana por región / moda por rubro con flag _imputado"</span><span class="p">,</span> <span class="s2">"4. Decisiones técnicas"</span><span class="p">,</span> <span class="s2">"Implementado (F2)"</span><span class="p">,</span> <span class="s2">"Tablas comparativas en F2 y registro en F2/docs/bitacora_f2.md"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Estructura modular por fases (F1-F4) con raw/ inmutable"</span><span class="p">,</span> <span class="s2">"5. Organización del repositorio"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Árbol de carpetas del repositorio y README.md"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Secuencia narrativa-código verificada con assert y try/except"</span><span class="p">,</span> <span class="s2">"6. Estructura del notebook"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Salidas ejecutadas en F1_Definicion.html y F2_Preprocesamiento.html"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Refactorización en clases (POO) y recursión jerárquica"</span><span class="p">,</span> <span class="s2">"2. Procesos / 4. Decisiones"</span><span class="p">,</span> <span class="s2">"Proyectado (Fase 3)"</span><span class="p">,</span> <span class="s2">"Carpeta F3/ preparada sobre la base de F2/src/preprocesamiento.py"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Modelado estadístico y visualización de persistencia id_vu"</span><span class="p">,</span> <span class="s2">"2. Procesos / 4. Decisiones"</span><span class="p">,</span> <span class="s2">"Proyectado (Fase 4)"</span><span class="p">,</span> <span class="s2">"Carpeta F4/ e indicadores longitudinales en base_maestra_2023_2025_clean.csv"</span><span class="p">),</span>
+<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Elemento del Mapa Conceptual"</span><span class="p">,</span> <span class="s2">"Tipo de Elemento"</span><span class="p">,</span> <span class="s2">"Estado"</span><span class="p">,</span> <span class="s2">"Evidencia Verificable"</span><span class="p">])</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">vinculacion_mapa</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Rama activa en Git : main
+
+Últimos 10 commits verificables del repositorio:
+81821e0 test: valida dataset procesado con assert y exporta base limpia y bitacora F2
+7d75980 feat: implementa transformaciones por rol y escalamiento RobustScaler en F2
+eaac597 feat: desarrolla exploracion, limpieza interanual e imputacion en F2_Preprocesamiento
+c3498a6 feat: implementa modulo de limpieza interanual, rescate geografico e imputacion en F2/src
+df6618d Merge branch 'main' of https://github.com/Rulman75/proyecto-grupo3-mcdi500
+c313c99 Merge branch 'main' of https://github.com/Rulman75/proyecto-grupo3-mcdi500 (integra README de Ignacio y Fase 1)
+1d0c372 docs: usuarios GitHub corregidos
+5cc5353 feat: actualiza Fase 1 con dataset RETC Base_Maestra_2023_2025.xlsx
+ba936a4 docs: reemplaza README con nuevo conjunto de datos de residuos peligrosos
+75fde4d feat: completa diccionario de variables y validacion del dataset en F1
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Elemento del Mapa Conceptual</th>
+<th>Tipo de Elemento</th>
+<th>Estado</th>
+<th>Evidencia Verificable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>Python 3.14, Pandas 3.1, NumPy 2.5, Scikit-Lea...</td>
+<td>1. Herramientas</td>
+<td>Implementado (F1-F2)</td>
+<td>requirements.txt y celda de verificación de ve...</td>
+</tr>
+<tr>
+<th>1</th>
+<td>Git, GitHub y filtro nbstripout</td>
+<td>1. Herramientas</td>
+<td>Implementado (F1-F2)</td>
+<td>Repositorio Rulman75/proyecto-grupo3-mcdi500 e...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>Carga segura (try/except) y validación de crit...</td>
+<td>2. Procesos</td>
+<td>Implementado (F1)</td>
+<td>F1/notebooks/F1_Definicion.ipynb y F1/docs/inf...</td>
+</tr>
+<tr>
+<th>3</th>
+<td>Limpieza interanual, rescate 2024, imputación ...</td>
+<td>2. Procesos</td>
+<td>Implementado (F2)</td>
+<td>F2/src/preprocesamiento.py y F2/notebooks/F2_P...</td>
+</tr>
+<tr>
+<th>4</th>
+<td>Entorno .venv, kernel grupo3_mcdi500, semilla ...</td>
+<td>3. Flujo reproducible</td>
+<td>Implementado (F1-F2)</td>
+<td>Celda 1 de ambos notebooks y ejecución cruzada...</td>
+</tr>
+<tr>
+<th>5</th>
+<td>Mediana por región / moda por rubro con flag _...</td>
+<td>4. Decisiones técnicas</td>
+<td>Implementado (F2)</td>
+<td>Tablas comparativas en F2 y registro en F2/doc...</td>
+</tr>
+<tr>
+<th>6</th>
+<td>Estructura modular por fases (F1-F4) con raw/ ...</td>
+<td>5. Organización del repositorio</td>
+<td>Implementado (F1-F2)</td>
+<td>Árbol de carpetas del repositorio y README.md</td>
+</tr>
+<tr>
+<th>7</th>
+<td>Secuencia narrativa-código verificada con asse...</td>
+<td>6. Estructura del notebook</td>
+<td>Implementado (F1-F2)</td>
+<td>Salidas ejecutadas en F1_Definicion.html y F2_...</td>
+</tr>
+<tr>
+<th>8</th>
+<td>Refactorización en clases (POO) y recursión je...</td>
+<td>2. Procesos / 4. Decisiones</td>
+<td>Proyectado (Fase 3)</td>
+<td>Carpeta F3/ preparada sobre la base de F2/src/...</td>
+</tr>
+<tr>
+<th>9</th>
+<td>Modelado estadístico y visualización de persis...</td>
+<td>2. Procesos / 4. Decisiones</td>
+<td>Proyectado (Fase 4)</td>
+<td>Carpeta F4/ e indicadores longitudinales en ba...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f4b35dfe-9dcf-477f-b165-989ee4753b56">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="6.-Reflexi%C3%B3n-T%C3%A9cnica-y-Trazabilidad-(Cierre-de-Fase-1)">6. Reflexión Técnica y Trazabilidad (Cierre de Fase 1)<a class="anchor-link" href="#6.-Reflexi%C3%B3n-T%C3%A9cnica-y-Trazabilidad-(Cierre-de-Fase-1)">¶</a></h2><ul>
+<li><strong>Hallazgos del perfilamiento inicial:</strong> El conjunto de datos oficial del RETC (<code>Base_Maestra_2023_2025.xlsx</code>, <code>118.280 filas × 21 columnas</code>) supera ampliamente los umbrales obligatorios del curso y cubre los 8 roles analíticos requeridos. La exploración sin modificación permitió detectar tempranamente inconsistencias de publicación interanual entre 2023, 2024 y 2025 (<code>19</code> etiquetas regionales para 16 regiones, <code>812</code> variantes en la glosa de <code>peligrosidad</code>, pérdida del punto decimal en las coordenadas de 2024 y <code>4,03%</code> de nulos en <code>id_lista_a</code>), las cuales se delegan íntegramente al pipeline de la Fase 2 respetando la separación de alcances.</li>
+<li><strong>Limitaciones y restricciones declaradas:</strong> La variable temporal (<code>año</code>) posee granularidad anual (<code>2023</code>, <code>2024</code>, <code>2025</code>), por lo que el seguimiento longitudinal evalúa la persistencia interanual de los <code>12.192</code> establecimientos (<code>id_vu</code>) y no variaciones estacionales intra-anuales.</li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a12d0eb6-0a9f-4b60-8b2a-b6d064bd5f14">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span> 
+</pre></div>
 </div>
 </div>
 </div>
