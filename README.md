@@ -103,18 +103,59 @@ proyecto-grupo3-mcdi500/
 ```
 
 ## Requisitos y ejecución
+## Requisitos y ejecución
 
-Requiere **Python 3.14** y **Git**. Todos los comandos se ejecutan desde la raíz del repositorio.
+Requiere **Python 3.14** y **Git**. Todos los comandos se ejecutan en una terminal
+(Git Bash en Windows, Terminal en macOS/Linux) **desde la raíz del repositorio**.
 
-```bash
-python -m venv .venv                       # 1. crea el entorno virtual del proyecto
-source .venv/Scripts/activate              # 2. lo activa (Windows, Git Bash)
-# source .venv/bin/activate                #    macOS y Linux
-python -m pip install -r requirements.txt  # 3. instala las versiones exactas de las librerías
-nbstripout --install                       # 4. limpia las salidas de los notebooks al hacer commit (cada integrante, una vez)
-python -m ipykernel install --user --name grupo3_mcdi500 --display-name "Python (grupo3-mcdi500)"  # 5. registra el kernel
-python -m jupyter lab                      # 6. abre JupyterLab
-```
+### 1. Crear el entorno virtual
+
+python -m venv .venv
+Crea la carpeta .venv/ con un intérprete de Python propio del proyecto. Las librerías
+que se instalen ahí no afectan al resto del computador, y cada integrante trabaja con las
+mismas versiones. La carpeta está en .gitignore, por lo que cada persona la crea en su equipo.
+
+### 2. Activar el entorno
+
+source .venv/Scripts/activate      # Windows, Git Bash
+# .venv\Scripts\Activate.ps1       # Windows, PowerShell
+# source .venv/bin/activate        # macOS y Linux
+Ejecute **solo la línea de su sistema** (las que empiezan con # son alternativas).
+Activar el entorno hace que python y pip apunten al intérprete de .venv. Se nota
+porque la terminal muestra (.venv) al inicio. Hay que activarlo cada vez que se abre
+una terminal nueva.
+
+### 3. Instalar las dependencias
+
+python -m pip install -r requirements.txt
+Instala las librerías del proyecto con las versiones exactas declaradas en
+requirements.txt, lo que permite reconstruir el mismo entorno en cualquier equipo.
+Usar python -m pip en vez de pip garantiza que se instale en el Python del entorno activo.
+
+### 4. Activar nbstripout en el repositorio
+
+nbstripout --install
+Configura Git para que, al hacer git commit, se eliminen las salidas de los notebooks
+(tablas, gráficos, contadores de ejecución). El notebook en pantalla no cambia; solo se
+limpia lo que se guarda en el historial. Esto evita conflictos y diferencias ilegibles
+entre integrantes. **Cada integrante debe ejecutarlo una vez**, porque la configuración
+queda en .git/config, que no se comparte por GitHub.
+
+### 5. Registrar el kernel de Jupyter
+
+python -m ipykernel install --user --name grupo3_mcdi500 --display-name "Python (grupo3-mcdi500)"
+Registra el entorno .venv como un kernel para Jupyter y VS Code.
+- --user: lo instala solo para su usuario, sin permisos de administrador.
+- --name: identificador interno del kernel.
+- --display-name: el nombre que aparece en el menú para elegir kernel.
+
+Al abrir un notebook, seleccione el kernel **Python (grupo3-mcdi500)**. Si se usa otro
+(por ejemplo, base de Anaconda), el código puede fallar con ModuleNotFoundError
+aunque las librerías estén instaladas en .venv.
+
+### 6. Ejecutar los notebooks
+
+python -m jupyter lab
 
 Al abrir un notebook, seleccione el kernel **Python (grupo3-mcdi500)**. Los notebooks usan rutas relativas desde la raíz del repositorio y se ejecutan en orden (`F1/notebooks/F1_Definicion.ipynb`, luego `F2/notebooks/F2_Preprocesamiento.ipynb`).
 
