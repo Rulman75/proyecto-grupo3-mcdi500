@@ -1,7 +1,7 @@
 # Bitácora Técnica de Decisiones — Fase 2 (Grupo 3 MCDI500)
 
 - **Dataset de entrada (inmutable):** `F1\data\raw\Base_Maestra_2023_2025.xlsx` (`118.280 filas × 21 columnas`)
-- **Dataset de salida (procesado):** `F2\data\processed\base_maestra_2023_2025_clean.csv` (`118162 filas × 63 columnas`)
+- **Dataset de salida (procesado):** `F2\data\processed\base_maestra_2023_2025_clean.csv` (`118162 filas × 68 columnas`)
 
 ## Registro de Decisiones Técnicas
 | Etapa | Problema detectado | Alternativas evaluadas | Decisión adoptada y justificación |
