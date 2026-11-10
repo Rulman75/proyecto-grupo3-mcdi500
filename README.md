@@ -20,6 +20,22 @@ Los establecimientos que generan residuos peligrosos sobre los umbrales de la no
 - **La fiscalización** (Superintendencia del Medio Ambiente y Seremis de Salud), que necesita priorizar qué establecimientos verificar.
 - **La planificación de la capacidad de tratamiento y disposición** (empresas del sector y gobiernos regionales), que es distinta si el volumen proviene de un núcleo estable de generadores o de establecimientos que cambian cada año.
 
+## Declaración de Integridad Académica y Asistencia de IA
+
+En cumplimiento con las normas de honestidad y rigor académico, se declara que para el desarrollo de este proyecto se utilizó asistencia de Inteligencia Artificial generativa, como Antigravity y Claude, aplicada a las siguientes tareas:
+
+- *Construcción de la Base_Maestra_2023_2025:* asistencia técnica para consolidar tres bases de datos correspondientes a tres periodos anuales distintos. La IA apoyó en la lógica de homologación y estandarización de nombres y formatos de columnas, así como en el filtrado para conservar exclusivamente aquellas variables consistentes y comparables a lo largo de los tres años.
+  
+- *Guía de indagación analítica:* asistencia interactiva en el planteamiento y estructuración de preguntas de análisis exploratorio sobre el dataset unificado.
+- *Desarrollo del notebook:* sugerencia de sintaxis para la incorporación progresiva de celdas de código de procesamiento, cálculo estadístico y visualización.
+
+Su intervención se limitó a:
+
+- Actuar como guía interactiva en la propuesta y formulación de preguntas analíticas exploratorias.
+- Apoyar en la sugerencia inicial de sintaxis y bloques de código para el tratamiento de datos.
+
+La autoría intelectual, el criterio metodológico, la validación de la veracidad de los datos, la eliminación de sesgos y las conclusiones interpretativas corresponden íntegramente a los miembros del equipo, quienes asumen total responsabilidad por el contenido presentado.
+
 ## Pregunta del proyecto
 
 > ¿Qué establecimientos se mantienen como generadores de residuos peligrosos entre 2023, 2024 y 2025, cuánto varía su volumen año a año, y qué parte del cambio total se explica por establecimientos que entran o salen del registro?
