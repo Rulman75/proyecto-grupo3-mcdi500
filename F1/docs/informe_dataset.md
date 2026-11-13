@@ -9,7 +9,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | año | int64 | fecha | 3 | 0 | 0.0 | Año calendario de la declaración RETC (2023, 2024, 2025) |
 | id_vu | int64 | identificador | 12192 | 0 | 0.0 | Identificador numérico del establecimiento en Ventanilla Única |
-| rut_razon_social | str | alta cardinalidad | 6779 | 0 | 0.0 | RUT tributario de la organización declarante (6.779 empresas) |
+| rut_razon_social | str | alta cardinalidad | 6779 | 0 | 0.0 | RUT de la organización declarante (se anonimiza por frecuencia en F2/F3) |
 | id_ciiu4 | str | alta cardinalidad | 546 | 1 | 0.0 | Código CIIU4 de actividad económica a 4 dígitos (546 códigos) |
 | ciiu4 | str | texto libre | 335 | 1 | 0.0 | Glosa descriptiva de la actividad económica según CIIU4 |
 | id_ciiu6 | str | alta cardinalidad | 388 | 1 | 0.0 | Código CIIU6 de actividad económica a 6 dígitos (388 códigos) |
@@ -23,8 +23,8 @@
 | latitud | float64 | continua | 20120 | 64 | 0.05 | Latitud geográfica del establecimiento en grados decimales |
 | longitud | float64 | continua | 20112 | 64 | 0.05 | Longitud geográfica del establecimiento en grados decimales |
 | cantidad_kg | float64 | continua | 13488 | 21 | 0.02 | Masa anual declarada de residuo peligroso en kilogramos (kg) |
-| id_peligrosidad | str | ordinal | 587 | 0 | 0.0 | Códigos de característica de peligrosidad D.S. N° 148/2003 |
+| id_peligrosidad | str | nominal | 587 | 0 | 0.0 | Códigos de característica de peligrosidad D.S. N° 148/2003 |
 | peligrosidad | str | texto libre | 812 | 0 | 0.0 | Glosa de característica(s) de peligrosidad declaradas |
-| id_lista_a | str | nominal | 59 | 4764 | 4.03 | Código de clasificación Lista A del D.S. N° 148/2003 MINSAL |
-| id_estado_materia | int64 | ordinal | 4 | 0 | 0.0 | Código de estado físico de agregación (1=sólido, 2=líquido, 3=gaseoso, 4=lodo) |
-| estado_materia | str | nominal | 4 | 0 | 0.0 | Estado físico del residuo (sólido, líquido, lodo, gaseoso) |
+| id_lista_a | str | alta cardinalidad | 59 | 4764 | 4.03 | Código Lista A D.S. 148/2003 (59 códigos; se imputa por moda de id_rubro y se codifica por frecuencia) |
+| id_estado_materia | int64 | discreta | 4 | 0 | 0.0 | Código administrativo RETC de estado físico (1=sólido, 2=líquido, 3=gaseoso, 4=lodo) |
+| estado_materia | str | nominal | 4 | 0 | 0.0 | Estado físico del residuo (sólido, líquido, lodo, gaseoso; se codifica con One-Hot) |
