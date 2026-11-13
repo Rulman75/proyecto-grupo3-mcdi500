@@ -7795,7 +7795,26 @@ a.anchor-link {
 </style>
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0">
+<main>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=41af2ae3-bbbf-40f2-a458-54fb506a5c33">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Fase-1:-Definici%C3%B3n-del-Problema-Anal%C3%ADtico,-Entorno-Reproducible-y-Validaci%C3%B3n-del-Dataset">Fase 1: Definición del Problema Analítico, Entorno Reproducible y Validación del Dataset<a class="anchor-link" href="#Fase-1:-Definici%C3%B3n-del-Problema-Anal%C3%ADtico,-Entorno-Reproducible-y-Validaci%C3%B3n-del-Dataset">¶</a></h1><p><strong>Curso:</strong> MCDI500 — Programación para la Ciencia de Datos (Grupo 3)<br/>
+<strong>Docente:</strong> Dr. Omar Iván Salinas Silva<br/>
+<strong>Integrantes:</strong> Madeleine Aguilera, Victoria Álvarez, Ignacio Peña y Raúl Hormazábal</p>
+<hr/>
+<h2 id="1.-Situaci%C3%B3n-Problematizadora,-Pregunta-Analizable-y-Objetivo-General-Anal%C3%ADtico">1. Situación Problematizadora, Pregunta Analizable y Objetivo General Analítico<a class="anchor-link" href="#1.-Situaci%C3%B3n-Problematizadora,-Pregunta-Analizable-y-Objetivo-General-Anal%C3%ADtico">¶</a></h2><p>Los establecimientos que generan residuos peligrosos sobre los umbrales del <strong>D.S. N° 148/2003 (MINSAL)</strong> deben declararlos anualmente en el <strong>Sistema de Declaración y Seguimiento de Residuos Peligrosos (SIDREP)</strong> del <strong>Registro de Emisiones y Transferencias de Contaminantes (RETC)</strong>. Al consolidar los registros públicos de <strong>2023, 2024 y 2025</strong> (<code>Base_Maestra_2023_2025.xlsx</code>, con <code>118.280 filas × 21 columnas</code>), se requiere distinguir qué establecimientos conforman el núcleo permanente de generación frente a los declarantes intermitentes:</p>
+<ul>
+<li><strong>Pregunta del proyecto:</strong> <em>¿Qué establecimientos (<code>id_vu</code>) se mantienen como generadores de residuos peligrosos entre 2023, 2024 y 2025, cuánto varía su volumen (<code>cantidad_kg</code>) año a año, y qué parte del cambio total se explica por establecimientos que entran o salen del registro?</em></li>
+<li><strong>Objetivo General Analítico:</strong> <em>Determinar la persistencia interanual de los establecimientos generadores de residuos peligrosos en Chile durante el trienio 2023–2025 y cuantificar el peso relativo del núcleo persistente frente a la entrada y salida de establecimientos en la variación del volumen total declarado, según región y rubro productivo.</em></li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a505c0fe-b95a-4c5a-9564-6e7856e49306">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7804,20 +7823,20 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
+<span class="c1"># Posicionar el directorio de trabajo en la raíz del repositorio</span>
 <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"notebooks"</span><span class="p">:</span>
-  <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()))</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Intérprete:"</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Carpeta de trabajo:"</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Intérprete activo:"</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Raíz del proyecto:"</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
 
-<span class="k">for</span> <span class="n">lib</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"numpy"</span><span class="p">,</span> <span class="s2">"pandas"</span><span class="p">,</span> <span class="s2">"matplotlib"</span><span class="p">,</span> <span class="s2">"sklearn"</span><span class="p">,</span> <span class="s2">"openpyxl"</span><span class="p">]:</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">lib</span><span class="si">:</span><span class="s2">12</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">lib</span><span class="p">)</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-  <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">lib</span><span class="si">:</span><span class="s2">12</span><span class="si">}</span><span class="s2"> NO DISPONIBLE en este kernel"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">lib</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"numpy"</span><span class="p">,</span> <span class="s2">"pandas"</span><span class="p">,</span> <span class="s2">"matplotlib"</span><span class="p">,</span> <span class="s2">"seaborn"</span><span class="p">,</span> <span class="s2">"sklearn"</span><span class="p">,</span> <span class="s2">"openpyxl"</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" - </span><span class="si">{</span><span class="n">lib</span><span class="si">:</span><span class="s2">12</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">__import__</span><span class="p">(</span><span class="n">lib</span><span class="p">)</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7830,44 +7849,31 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Intérprete: C:\Users\raulh\proyecto-grupo3-mcdi500\.venv\Scripts\python.exe
-Carpeta de trabajo: C:\Users\raulh\proyecto-grupo3-mcdi500
- numpy        2.5.4
- pandas       3.1.0
- matplotlib   3.11.2
- sklearn      1.9.1
- openpyxl     3.1.5
+<pre>Intérprete activo: C:\Users\Usuario\proyecto-grupo3-mcdi500\.venv\Scripts\python.exe
+Raíz del proyecto: C:\Users\Usuario\proyecto-grupo3-mcdi500
+ - numpy       : 2.5.4
+ - pandas      : 3.1.0
+ - matplotlib  : 3.11.2
+ - seaborn     : 0.13.2
+ - sklearn     : 1.9.1
+ - openpyxl    : 3.1.5
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1e4aad4c-a879-43c1-a444-cffc2c05b5d3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Fase-1:-Definici%C3%B3n-del-Problema,-Entorno-Reproducible-y-Validaci%C3%B3n-del-Dataset">Fase 1: Definición del Problema, Entorno Reproducible y Validación del Dataset<a class="anchor-link" href="#Fase-1:-Definici%C3%B3n-del-Problema,-Entorno-Reproducible-y-Validaci%C3%B3n-del-Dataset">¶</a></h1><p><strong>Curso:</strong> MCDI500 — Programación para la Ciencia de Datos (Grupo 3)<br/>
-<strong>Integrantes:</strong> Madeleine Aguilera, Victoria Álvarez, Ignacio Peña y Raúl Hormazábal</p>
-<hr/>
-<h2 id="1.-Situaci%C3%B3n-Problematizadora-y-Pregunta-Analizable">1. Situación Problematizadora y Pregunta Analizable<a class="anchor-link" href="#1.-Situaci%C3%B3n-Problematizadora-y-Pregunta-Analizable">¶</a></h2><p>Los establecimientos que generan residuos peligrosos sobre los umbrales de la normativa (D.S. N° 148/2003 MINSAL) deben declararlos cada año en el <strong>Sistema de Declaración y Seguimiento de Residuos Peligrosos (SIDREP)</strong> del <strong>Registro de Emisiones y Transferencias de Contaminantes (RETC)</strong>. Cuando un establecimiento deja de aparecer en el registro, no es posible saber, solo con el registro bruto, si cerró, si bajó del umbral de declaración o si dejó de declarar. Esta incertidumbre afecta tanto a la <strong>fiscalización ambiental y sanitaria</strong> (SMA y Seremis de Salud) como a la <strong>planificación de la capacidad de tratamiento y disposición</strong> regional.</p>
-<p>Al consolidar la base maestra trianual <strong>2023–2025</strong> (<code>Base_Maestra_2023_2025.xlsx</code>, con <strong>118.280 filas y 21 columnas</strong>), emergen además problemas reales de calidad de datos entre años: <strong>118 filas duplicadas exactas</strong>, <strong>19 etiquetas regionales para las 16 regiones de Chile</strong>, <strong>dígito extra en <code>id_ciiu4</code> en 2024</strong>, <strong>812 combinaciones heterogéneas en la glosa de <code>peligrosidad</code></strong>, <strong>pérdida del separador decimal en las coordenadas geográficas de 2024</strong> y <strong>faltantes estructurales en <code>id_lista_a</code> (4,03%), coordenadas y <code>cantidad_kg</code></strong>.</p>
-<ul>
-<li><strong>Pregunta analizable del proyecto:</strong> <em>¿Qué establecimientos (<code>id_vu</code>) se mantienen como generadores de residuos peligrosos entre 2023, 2024 y 2025, cuánto varía su volumen (<code>cantidad_kg</code>) año a año, y qué parte del cambio total se explica por establecimientos que entran o salen del registro?</em></li>
-<li><strong>Objetivo General:</strong> Implementar un flujo de trabajo reproducible y trazable en Python para explorar, depurar, normalizar, transformar y analizar la evolución trianual de las declaraciones de residuos peligrosos en Chile (2023–2025).</li>
-<li><strong>Objetivos Específicos (Fases 1 y 2):</strong><ol>
-<li>Configurar y verificar un entorno computacional aislado (<code>.venv</code>), conectado al kernel del proyecto y versionado en Git/GitHub con higiene de notebooks (<code>nbstripout</code>).</li>
-<li>Validar que el conjunto de datos original (<code>F1/data/raw/Base_Maestra_2023_2025.xlsx</code>) cumple los requisitos multivariados y de volumen del curso sin alterar el archivo crudo.</li>
-<li>Diseñar en la Fase 2 un pipeline modular (<code>F2/src/preprocesamiento.py</code>) de deduplicación, homologación interanual (<code>region</code>, <code>id_ciiu4</code>, <code>peligrosidad</code>), rescate de escala geográfica, imputación por grupo (<code>region</code> e <code>id_rubro</code>), indicadores de persistencia por establecimiento (<code>id_vu</code>) y escalamiento robusto (<code>RobustScaler</code>).</li>
-</ol>
-</li>
-</ul>
+<h2 id="2.-Carga-Segura-del-Dataset-Original-desde-src/carga.py">2. Carga Segura del Dataset Original desde <code>src/carga.py</code><a class="anchor-link" href="#2.-Carga-Segura-del-Dataset-Original-desde-src/carga.py">¶</a></h2><p>Siguiendo el principio de inmutabilidad de los datos crudos, el archivo <code>F1/data/raw/Base_Maestra_2023_2025.xlsx</code> se lee de forma controlada mediante <code>cargar_datos_seguro()</code> sin modificarlo y se mantiene excluido del repositorio remoto por contener 398 RUT de personas naturales en <code>rut_razon_social</code>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4956c78e-e083-4e4a-99d1-00602b7fb55b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7875,97 +7881,15 @@ Carpeta de trabajo: C:\Users\raulh\proyecto-grupo3-mcdi500
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Celda 3: Carga controlada del dataset original, diccionario de variables y validación Fase 1</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.carga</span><span class="w"> </span><span class="kn">import</span> <span class="n">COLUMNAS_ESPERADAS_RETC</span><span class="p">,</span> <span class="n">cargar_datos_seguro</span>
 
 <span class="n">RUTA_RAW</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"F1/data/raw/Base_Maestra_2023_2025.xlsx"</span><span class="p">)</span>
-
-<span class="c1"># 1. Carga con manejo de excepciones (buena práctica de software científico)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">RUTA_RAW</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No se encontró el archivo en la ruta relativa: </span><span class="si">{</span><span class="n">RUTA_RAW</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">df_raw</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">RUTA_RAW</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Dataset cargado correctamente desde: </span><span class="si">{</span><span class="n">RUTA_RAW</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dimensiones originales: </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> filas x </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[ERROR] Fallo al cargar el dataset: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="k">raise</span>
-
-<span class="c1"># 2. Diccionario de las 21 variables definido por el Grupo 3</span>
-<span class="n">DICCIONARIO_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"año"</span><span class="p">:</span>                <span class="p">(</span><span class="s2">"fecha"</span><span class="p">,</span>             <span class="s2">"Año calendario de la declaración RETC (2023, 2024, 2025)"</span><span class="p">),</span>
-    <span class="s2">"id_vu"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"identificador"</span><span class="p">,</span>     <span class="s2">"Identificador numérico del establecimiento en Ventanilla Única"</span><span class="p">),</span>
-    <span class="s2">"rut_razon_social"</span><span class="p">:</span>   <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"RUT tributario de la organización declarante (6.779 empresas)"</span><span class="p">),</span>
-    <span class="s2">"id_ciiu4"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Código CIIU4 de actividad económica a 4 dígitos (546 códigos)"</span><span class="p">),</span>
-    <span class="s2">"ciiu4"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"texto libre"</span><span class="p">,</span>       <span class="s2">"Glosa descriptiva de la actividad económica según CIIU4"</span><span class="p">),</span>
-    <span class="s2">"id_ciiu6"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Código CIIU6 de actividad económica a 6 dígitos (388 códigos)"</span><span class="p">),</span>
-    <span class="s2">"ciiu6"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"texto libre"</span><span class="p">,</span>       <span class="s2">"Glosa descriptiva detallada de la actividad económica según CIIU6"</span><span class="p">),</span>
-    <span class="s2">"id_rubro"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"discreta"</span><span class="p">,</span>          <span class="s2">"Código entero del rubro económico RETC (0 a 20)"</span><span class="p">),</span>
-    <span class="s2">"rubro"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Categoría de rubro industrial o sector productivo (19 rubros)"</span><span class="p">),</span>
-    <span class="s2">"codigo_territorial"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"discreta"</span><span class="p">,</span>          <span class="s2">"Código Único Territorial (CUT) comunal entero (380 códigos)"</span><span class="p">),</span>
-    <span class="s2">"comuna"</span><span class="p">:</span>             <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Nombre de la comuna del establecimiento generador (344 comunas)"</span><span class="p">),</span>
-    <span class="s2">"provincia"</span><span class="p">:</span>          <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Nombre de la provincia administrativa (58 provincias)"</span><span class="p">),</span>
-    <span class="s2">"region"</span><span class="p">:</span>             <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Región administrativa de Chile (16 regiones; 19 etiquetas en crudo)"</span><span class="p">),</span>
-    <span class="s2">"latitud"</span><span class="p">:</span>            <span class="p">(</span><span class="s2">"continua"</span><span class="p">,</span>          <span class="s2">"Latitud geográfica del establecimiento en grados decimales"</span><span class="p">),</span>
-    <span class="s2">"longitud"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"continua"</span><span class="p">,</span>          <span class="s2">"Longitud geográfica del establecimiento en grados decimales"</span><span class="p">),</span>
-    <span class="s2">"cantidad_kg"</span><span class="p">:</span>        <span class="p">(</span><span class="s2">"continua"</span><span class="p">,</span>          <span class="s2">"Masa anual declarada de residuo peligroso en kilogramos (kg)"</span><span class="p">),</span>
-    <span class="s2">"id_peligrosidad"</span><span class="p">:</span>    <span class="p">(</span><span class="s2">"ordinal"</span><span class="p">,</span>           <span class="s2">"Códigos de característica de peligrosidad D.S. N° 148/2003"</span><span class="p">),</span>
-    <span class="s2">"peligrosidad"</span><span class="p">:</span>       <span class="p">(</span><span class="s2">"texto libre"</span><span class="p">,</span>       <span class="s2">"Glosa de característica(s) de peligrosidad declaradas"</span><span class="p">),</span>
-    <span class="s2">"id_lista_a"</span><span class="p">:</span>         <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Código de clasificación Lista A del D.S. N° 148/2003 MINSAL"</span><span class="p">),</span>
-    <span class="s2">"id_estado_materia"</span><span class="p">:</span>  <span class="p">(</span><span class="s2">"ordinal"</span><span class="p">,</span>           <span class="s2">"Código de estado físico de agregación (1=sólido, 2=líquido, 3=gaseoso, 4=lodo)"</span><span class="p">),</span>
-    <span class="s2">"estado_materia"</span><span class="p">:</span>     <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Estado físico del residuo (sólido, líquido, lodo, gaseoso)"</span><span class="p">),</span>
-<span class="p">}</span>
-
-<span class="c1"># 3. Construcción del perfil técnico de las variables</span>
-<span class="n">perfil_f1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
-    <span class="p">{</span>
-        <span class="s2">"variable"</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span>
-        <span class="s2">"dtype_pandas"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
-        <span class="s2">"rol_analitico"</span><span class="p">:</span> <span class="n">DICCIONARIO_VARIABLES</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-        <span class="s2">"valores_unicos"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
-        <span class="s2">"nulos_n"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
-        <span class="s2">"nulos_pct"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">"descripcion"</span><span class="p">:</span> <span class="n">DICCIONARIO_VARIABLES</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-    <span class="p">}</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">columns</span>
-<span class="p">])</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">perfil_f1</span><span class="p">)</span>
-
-<span class="c1"># 4. Verificación formal de los umbrales mínimos del curso mediante assert</span>
-<span class="n">roles_presentes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">perfil_f1</span><span class="p">[</span><span class="s2">"rol_analitico"</span><span class="p">])</span> <span class="o">-</span> <span class="p">{</span><span class="s2">"identificador"</span><span class="p">}</span>
-<span class="n">max_pct_nulos</span> <span class="o">=</span> <span class="n">perfil_f1</span><span class="p">[</span><span class="s2">"nulos_pct"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-<span class="n">duplicados_n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-
-<span class="k">assert</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2000</span><span class="p">,</span> <span class="s2">"El dataset debe tener al menos 2.000 filas"</span>
-<span class="k">assert</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">"El dataset debe tener al menos 12 columnas"</span>
-<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">roles_presentes</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">"Debe cubrir múltiples roles analíticos"</span>
-<span class="k">assert</span> <span class="mf">1.0</span> <span class="o">&lt;=</span> <span class="n">max_pct_nulos</span> <span class="o">&lt;=</span> <span class="mf">60.0</span><span class="p">,</span> <span class="s2">"El porcentaje máximo de nulos debe estar entre 1% y 60%"</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Resumen de roles analíticos presentes:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">perfil_f1</span><span class="p">[</span><span class="s2">"rol_analitico"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">[OK] Todos los requisitos verificados. Filas: </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> | Duplicados exactos: </span><span class="si">{</span><span class="n">duplicados_n</span><span class="si">}</span><span class="s2"> | Máximo de nulos: </span><span class="si">{</span><span class="n">max_pct_nulos</span><span class="si">}</span><span class="s2">% en id_lista_a."</span><span class="p">)</span>
-
-<span class="c1"># 5. Guardar reporte Markdown de validación en F1/docs/informe_dataset.md</span>
-<span class="n">ruta_informe</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"F1/docs/informe_dataset.md"</span><span class="p">)</span>
-<span class="n">lineas_md</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"# Informe de Validación del Dataset (Fase 1) — Grupo 3 MCDI500"</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">"- **Archivo evaluado:** `</span><span class="si">{</span><span class="n">RUTA_RAW</span><span class="si">}</span><span class="s2">`"</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">"- **Dimensiones:** </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">"- **Filas duplicadas exactas:** </span><span class="si">{</span><span class="n">duplicados_n</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">"- **Porcentaje máximo de valores faltantes:** </span><span class="si">{</span><span class="n">max_pct_nulos</span><span class="si">}</span><span class="s2">% (`id_lista_a`: 4.764 nulos)"</span><span class="p">,</span>
-    <span class="s2">""</span><span class="p">,</span>
-    <span class="s2">"## Diccionario y Perfil de Variables"</span><span class="p">,</span>
-    <span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">perfil_f1</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">,</span>
-    <span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"---"</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">perfil_f1</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">,</span>
-<span class="p">]</span>
-<span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">perfil_f1</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-    <span class="n">lineas_md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fila</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">)</span>
-
-<span class="n">ruta_informe</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lineas_md</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Reporte exportado en: </span><span class="si">{</span><span class="n">ruta_informe</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">df_raw</span> <span class="o">=</span> <span class="n">cargar_datos_seguro</span><span class="p">(</span><span class="n">RUTA_RAW</span><span class="p">,</span> <span class="n">columnas_esperadas</span><span class="o">=</span><span class="n">COLUMNAS_ESPERADAS_RETC</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Dataset cargado correctamente desde: </span><span class="si">{</span><span class="n">RUTA_RAW</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dimensiones originales: </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_raw</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -7979,10 +7903,200 @@ Carpeta de trabajo: C:\Users\raulh\proyecto-grupo3-mcdi500
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[OK] Dataset cargado correctamente desde: F1\data\raw\Base_Maestra_2023_2025.xlsx
-Dimensiones originales: 118280 filas x 21 columnas
+Dimensiones originales: 118,280 filas × 21 columnas
 </pre>
 </div>
 </div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>año</th>
+<th>id_vu</th>
+<th>rut_razon_social</th>
+<th>id_ciiu4</th>
+<th>ciiu4</th>
+<th>id_ciiu6</th>
+<th>ciiu6</th>
+<th>id_rubro</th>
+<th>rubro</th>
+<th>codigo_territorial</th>
+<th>...</th>
+<th>provincia</th>
+<th>region</th>
+<th>latitud</th>
+<th>longitud</th>
+<th>cantidad_kg</th>
+<th>id_peligrosidad</th>
+<th>peligrosidad</th>
+<th>id_lista_a</th>
+<th>id_estado_materia</th>
+<th>estado_materia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2023</td>
+<td>5</td>
+<td>94283000-9</td>
+<td>C2599</td>
+<td>Fabricación de otros productos elaborados de m...</td>
+<td>C259900</td>
+<td>Fabricación de otros productos elaborados de m...</td>
+<td>10</td>
+<td>Otras industrias manufactureras</td>
+<td>15101</td>
+<td>...</td>
+<td>Arica</td>
+<td>Arica y Parinacota</td>
+<td>-18.473556</td>
+<td>-70.317359</td>
+<td>24750.0</td>
+<td>2,</td>
+<td>TOXICO CRONICO</td>
+<td>A3020</td>
+<td>2</td>
+<td>líquido</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2023</td>
+<td>6</td>
+<td>80125000-9</td>
+<td>C2394</td>
+<td>Fabricación de cemento, cal y yeso</td>
+<td>C239400</td>
+<td>Fabricación de cemento, cal y yeso</td>
+<td>8</td>
+<td>Producción de cemento, cal y yeso</td>
+<td>15101</td>
+<td>...</td>
+<td>Arica</td>
+<td>Arica y Parinacota</td>
+<td>-18.466515</td>
+<td>-70.295403</td>
+<td>15.0</td>
+<td>3,5,</td>
+<td>TOXICO POR LIXIVIACION##INFLAMABLE</td>
+<td>A4130</td>
+<td>1</td>
+<td>sólido</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2023</td>
+<td>6</td>
+<td>80125000-9</td>
+<td>C2394</td>
+<td>Fabricación de cemento, cal y yeso</td>
+<td>C239400</td>
+<td>Fabricación de cemento, cal y yeso</td>
+<td>8</td>
+<td>Producción de cemento, cal y yeso</td>
+<td>15101</td>
+<td>...</td>
+<td>Arica</td>
+<td>Arica y Parinacota</td>
+<td>-18.466515</td>
+<td>-70.295403</td>
+<td>28.0</td>
+<td>3,</td>
+<td>TOXICO POR LIXIVIACION</td>
+<td>A3020</td>
+<td>1</td>
+<td>sólido</td>
+</tr>
+</tbody>
+</table>
+<p>3 rows × 21 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=288357aa-feeb-47b3-85f6-711ed0059deb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="3.-Diccionario-y-Perfilamiento-de-las-21-Variables-(Roles-Anal%C3%ADticos-Unificados)">3. Diccionario y Perfilamiento de las 21 Variables (Roles Analíticos Unificados)<a class="anchor-link" href="#3.-Diccionario-y-Perfilamiento-de-las-21-Variables-(Roles-Anal%C3%ADticos-Unificados)">¶</a></h2><p>Se construye el perfil técnico de las 21 columnas declarando de manera consistente el rol analítico de cada variable (en particular, <code>id_lista_a</code> como categórica de alta cardinalidad con <code>59</code> códigos que se imputará por moda de <code>id_rubro</code>, y <code>estado_materia</code> como categórica nominal de <code>4</code> categorías que se codificará mediante One-Hot).</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a89efd37-5562-4930-ad5b-4d1705ea6674">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">DICCIONARIO_VARIABLES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"año"</span><span class="p">:</span>                <span class="p">(</span><span class="s2">"fecha"</span><span class="p">,</span>             <span class="s2">"Año calendario de la declaración RETC (2023, 2024, 2025)"</span><span class="p">),</span>
+    <span class="s2">"id_vu"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"identificador"</span><span class="p">,</span>     <span class="s2">"Identificador numérico del establecimiento en Ventanilla Única"</span><span class="p">),</span>
+    <span class="s2">"rut_razon_social"</span><span class="p">:</span>   <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"RUT de la organización declarante (se anonimiza por frecuencia en F2/F3)"</span><span class="p">),</span>
+    <span class="s2">"id_ciiu4"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Código CIIU4 de actividad económica a 4 dígitos (546 códigos)"</span><span class="p">),</span>
+    <span class="s2">"ciiu4"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"texto libre"</span><span class="p">,</span>       <span class="s2">"Glosa descriptiva de la actividad económica según CIIU4"</span><span class="p">),</span>
+    <span class="s2">"id_ciiu6"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Código CIIU6 de actividad económica a 6 dígitos (388 códigos)"</span><span class="p">),</span>
+    <span class="s2">"ciiu6"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"texto libre"</span><span class="p">,</span>       <span class="s2">"Glosa descriptiva detallada de la actividad económica según CIIU6"</span><span class="p">),</span>
+    <span class="s2">"id_rubro"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"discreta"</span><span class="p">,</span>          <span class="s2">"Código entero del rubro económico RETC (0 a 20)"</span><span class="p">),</span>
+    <span class="s2">"rubro"</span><span class="p">:</span>              <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Categoría de rubro industrial o sector productivo (19 rubros)"</span><span class="p">),</span>
+    <span class="s2">"codigo_territorial"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"discreta"</span><span class="p">,</span>          <span class="s2">"Código Único Territorial (CUT) comunal entero (380 códigos)"</span><span class="p">),</span>
+    <span class="s2">"comuna"</span><span class="p">:</span>             <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Nombre de la comuna del establecimiento generador (344 comunas)"</span><span class="p">),</span>
+    <span class="s2">"provincia"</span><span class="p">:</span>          <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Nombre de la provincia administrativa (58 provincias)"</span><span class="p">),</span>
+    <span class="s2">"region"</span><span class="p">:</span>             <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Región administrativa de Chile (16 regiones; 19 etiquetas en crudo)"</span><span class="p">),</span>
+    <span class="s2">"latitud"</span><span class="p">:</span>            <span class="p">(</span><span class="s2">"continua"</span><span class="p">,</span>          <span class="s2">"Latitud geográfica del establecimiento en grados decimales"</span><span class="p">),</span>
+    <span class="s2">"longitud"</span><span class="p">:</span>           <span class="p">(</span><span class="s2">"continua"</span><span class="p">,</span>          <span class="s2">"Longitud geográfica del establecimiento en grados decimales"</span><span class="p">),</span>
+    <span class="s2">"cantidad_kg"</span><span class="p">:</span>        <span class="p">(</span><span class="s2">"continua"</span><span class="p">,</span>          <span class="s2">"Masa anual declarada de residuo peligroso en kilogramos (kg)"</span><span class="p">),</span>
+    <span class="s2">"id_peligrosidad"</span><span class="p">:</span>    <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Códigos de característica de peligrosidad D.S. N° 148/2003"</span><span class="p">),</span>
+    <span class="s2">"peligrosidad"</span><span class="p">:</span>       <span class="p">(</span><span class="s2">"texto libre"</span><span class="p">,</span>       <span class="s2">"Glosa de característica(s) de peligrosidad declaradas"</span><span class="p">),</span>
+    <span class="s2">"id_lista_a"</span><span class="p">:</span>         <span class="p">(</span><span class="s2">"alta cardinalidad"</span><span class="p">,</span> <span class="s2">"Código Lista A D.S. 148/2003 (59 códigos; se imputa por moda de id_rubro y se codifica por frecuencia)"</span><span class="p">),</span>
+    <span class="s2">"id_estado_materia"</span><span class="p">:</span>  <span class="p">(</span><span class="s2">"discreta"</span><span class="p">,</span>          <span class="s2">"Código administrativo RETC de estado físico (1=sólido, 2=líquido, 3=gaseoso, 4=lodo)"</span><span class="p">),</span>
+    <span class="s2">"estado_materia"</span><span class="p">:</span>     <span class="p">(</span><span class="s2">"nominal"</span><span class="p">,</span>           <span class="s2">"Estado físico del residuo (sólido, líquido, lodo, gaseoso; se codifica con One-Hot)"</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">perfil_f1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">{</span>
+        <span class="s2">"variable"</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span>
+        <span class="s2">"dtype_pandas"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+        <span class="s2">"rol_analitico"</span><span class="p">:</span> <span class="n">DICCIONARIO_VARIABLES</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">"valores_unicos"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
+        <span class="s2">"nulos_n"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+        <span class="s2">"nulos_pct"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">df_raw</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"descripcion"</span><span class="p">:</span> <span class="n">DICCIONARIO_VARIABLES</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">columns</span>
+<span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">perfil_f1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
@@ -8042,7 +8156,7 @@ Dimensiones originales: 118280 filas x 21 columnas
 <td>6779</td>
 <td>0</td>
 <td>0.00</td>
-<td>RUT tributario de la organización declarante (...</td>
+<td>RUT de la organización declarante (se anonimiz...</td>
 </tr>
 <tr>
 <th>3</th>
@@ -8178,7 +8292,7 @@ Dimensiones originales: 118280 filas x 21 columnas
 <th>16</th>
 <td>id_peligrosidad</td>
 <td>str</td>
-<td>ordinal</td>
+<td>nominal</td>
 <td>587</td>
 <td>0</td>
 <td>0.00</td>
@@ -8198,21 +8312,21 @@ Dimensiones originales: 118280 filas x 21 columnas
 <th>18</th>
 <td>id_lista_a</td>
 <td>str</td>
-<td>nominal</td>
+<td>alta cardinalidad</td>
 <td>59</td>
 <td>4764</td>
 <td>4.03</td>
-<td>Código de clasificación Lista A del D.S. N° 14...</td>
+<td>Código Lista A D.S. 148/2003 (59 códigos; se i...</td>
 </tr>
 <tr>
 <th>19</th>
 <td>id_estado_materia</td>
 <td>int64</td>
-<td>ordinal</td>
+<td>discreta</td>
 <td>4</td>
 <td>0</td>
 <td>0.00</td>
-<td>Código de estado físico de agregación (1=sólid...</td>
+<td>Código administrativo RETC de estado físico (1...</td>
 </tr>
 <tr>
 <th>20</th>
@@ -8229,75 +8343,53 @@ Dimensiones originales: 118280 filas x 21 columnas
 </div>
 </div>
 </div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Resumen de roles analíticos presentes:
-rol_analitico
-nominal              5
-alta cardinalidad    4
-texto libre          3
-continua             3
-discreta             2
-ordinal              2
-fecha                1
-identificador        1
-
-[OK] Todos los requisitos verificados. Filas: 118280 | Duplicados exactos: 118 | Máximo de nulos: 4.03% en id_lista_a.
-[OK] Reporte exportado en: F1\docs\informe_dataset.md
-</pre>
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=28ddb181-2cc6-40c3-a737-262f8568fddf">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dbb2c176-83e6-4d12-998f-2e6fec2e3ae3">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="4.-Verificaci%C3%B3n-Program%C3%A1tica-de-Umbrales-(assert)-y-Exportaci%C3%B3n-del-Reporte-de-Fase-1">4. Verificación Programática de Umbrales (<code>assert</code>) y Exportación del Reporte de Fase 1<a class="anchor-link" href="#4.-Verificaci%C3%B3n-Program%C3%A1tica-de-Umbrales-(assert)-y-Exportaci%C3%B3n-del-Reporte-de-Fase-1">¶</a></h2><p>Se comprueba mediante aserciones que la base supera los requisitos de volumen, dimensionalidad, diversidad de roles y proporción de datos faltantes, exportando el resumen en <code>F1/docs/informe_dataset.md</code>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=980b5ca9-cfbe-405f-b621-60f422d9c0cc">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># 5. CONTROL DE VERSIONES (CONSULTA A GIT) Y VINCULACIÓN CON EL MAPA CONCEPTUAL</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">max_pct_nulos</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">perfil_f1</span><span class="p">[</span><span class="s2">"nulos_pct"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">duplicados_n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">df_raw</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="k">assert</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2000</span><span class="p">,</span> <span class="s2">"El dataset debe tener al menos 2.000 filas"</span>
+<span class="k">assert</span> <span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">"El dataset debe tener al menos 12 columnas"</span>
+<span class="k">assert</span> <span class="mf">1.0</span> <span class="o">&lt;=</span> <span class="n">max_pct_nulos</span> <span class="o">&lt;=</span> <span class="mf">60.0</span><span class="p">,</span> <span class="s2">"El porcentaje máximo de nulos debe estar entre 1% y 60%"</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">consultar_git</span><span class="p">(</span><span class="o">*</span><span class="n">argumentos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Ejecuta un comando de Git de solo lectura y devuelve (éxito, salida)."""</span>
-    <span class="k">if</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">"git"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"Git no está instalado en el PATH."</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">"git"</span><span class="p">,</span> <span class="o">*</span><span class="n">argumentos</span><span class="p">],</span>
-        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">,</span>
-        <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">ruta_informe</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"F1/docs/informe_dataset.md"</span><span class="p">)</span>
+<span class="n">ruta_informe</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lineas_md</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"# Informe de Validación del Dataset (Fase 1) — Grupo 3 MCDI500"</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">"- **Archivo evaluado:** `</span><span class="si">{</span><span class="n">RUTA_RAW</span><span class="si">}</span><span class="s2">`"</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">"- **Dimensiones:** </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> filas × </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas"</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">"- **Filas duplicadas exactas:** </span><span class="si">{</span><span class="n">duplicados_n</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">"- **Porcentaje máximo de valores faltantes:** </span><span class="si">{</span><span class="n">max_pct_nulos</span><span class="si">}</span><span class="s2">% (`id_lista_a`: 4.764 nulos)"</span><span class="p">,</span>
+    <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"## Diccionario y Perfil de Variables"</span><span class="p">,</span>
+    <span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">perfil_f1</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">,</span>
+    <span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"---"</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">perfil_f1</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">perfil_f1</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+    <span class="n">lineas_md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fila</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">)</span>
+<span class="n">ruta_informe</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lineas_md</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
 
-<span class="n">ok_rama</span><span class="p">,</span> <span class="n">rama_actual</span> <span class="o">=</span> <span class="n">consultar_git</span><span class="p">(</span><span class="s2">"rev-parse"</span><span class="p">,</span> <span class="s2">"--abbrev-ref"</span><span class="p">,</span> <span class="s2">"HEAD"</span><span class="p">)</span>
-<span class="n">ok_log</span><span class="p">,</span> <span class="n">historial_commits</span> <span class="o">=</span> <span class="n">consultar_git</span><span class="p">(</span><span class="s2">"log"</span><span class="p">,</span> <span class="s2">"--oneline"</span><span class="p">,</span> <span class="s2">"-10"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rama activa en Git : </span><span class="si">{</span><span class="n">rama_actual</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">ok_rama</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'No detectada'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Últimos 10 commits verificables del repositorio:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">historial_commits</span> <span class="k">if</span> <span class="n">ok_log</span> <span class="k">else</span> <span class="s2">"Sin historial disponible"</span><span class="p">)</span>
-
-<span class="c1"># Tabla de vinculación con los 6 tipos de elementos del Mapa Conceptual (Criterio 14)</span>
-<span class="n">vinculacion_mapa</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
-    <span class="p">(</span><span class="s2">"Python 3.14, Pandas 3.1, NumPy 2.5, Scikit-Learn 1.9"</span><span class="p">,</span> <span class="s2">"1. Herramientas"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"requirements.txt y celda de verificación de versiones"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Git, GitHub y filtro nbstripout"</span><span class="p">,</span> <span class="s2">"1. Herramientas"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Repositorio Rulman75/proyecto-grupo3-mcdi500 e historial de commits"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Carga segura (try/except) y validación de criterios"</span><span class="p">,</span> <span class="s2">"2. Procesos"</span><span class="p">,</span> <span class="s2">"Implementado (F1)"</span><span class="p">,</span> <span class="s2">"F1/notebooks/F1_Definicion.ipynb y F1/docs/informe_dataset.md"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Limpieza interanual, rescate 2024, imputación y RobustScaler"</span><span class="p">,</span> <span class="s2">"2. Procesos"</span><span class="p">,</span> <span class="s2">"Implementado (F2)"</span><span class="p">,</span> <span class="s2">"F2/src/preprocesamiento.py y F2/notebooks/F2_Preprocesamiento.ipynb"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Entorno .venv, kernel grupo3_mcdi500, semilla 42 y pathlib"</span><span class="p">,</span> <span class="s2">"3. Flujo reproducible"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Celda 1 de ambos notebooks y ejecución cruzada en 4 equipos"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Mediana por región / moda por rubro con flag _imputado"</span><span class="p">,</span> <span class="s2">"4. Decisiones técnicas"</span><span class="p">,</span> <span class="s2">"Implementado (F2)"</span><span class="p">,</span> <span class="s2">"Tablas comparativas en F2 y registro en F2/docs/bitacora_f2.md"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Estructura modular por fases (F1-F4) con raw/ inmutable"</span><span class="p">,</span> <span class="s2">"5. Organización del repositorio"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Árbol de carpetas del repositorio y README.md"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Secuencia narrativa-código verificada con assert y try/except"</span><span class="p">,</span> <span class="s2">"6. Estructura del notebook"</span><span class="p">,</span> <span class="s2">"Implementado (F1-F2)"</span><span class="p">,</span> <span class="s2">"Salidas ejecutadas en F1_Definicion.html y F2_Preprocesamiento.html"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Refactorización en clases (POO) y recursión jerárquica"</span><span class="p">,</span> <span class="s2">"2. Procesos / 4. Decisiones"</span><span class="p">,</span> <span class="s2">"Proyectado (Fase 3)"</span><span class="p">,</span> <span class="s2">"Carpeta F3/ preparada sobre la base de F2/src/preprocesamiento.py"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"Modelado estadístico y visualización de persistencia id_vu"</span><span class="p">,</span> <span class="s2">"2. Procesos / 4. Decisiones"</span><span class="p">,</span> <span class="s2">"Proyectado (Fase 4)"</span><span class="p">,</span> <span class="s2">"Carpeta F4/ e indicadores longitudinales en base_maestra_2023_2025_clean.csv"</span><span class="p">),</span>
-<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"Elemento del Mapa Conceptual"</span><span class="p">,</span> <span class="s2">"Tipo de Elemento"</span><span class="p">,</span> <span class="s2">"Estado"</span><span class="p">,</span> <span class="s2">"Evidencia Verificable"</span><span class="p">])</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">vinculacion_mapa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Criterios verificados -&gt; Filas: </span><span class="si">{</span><span class="n">df_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> | Duplicados: </span><span class="si">{</span><span class="n">duplicados_n</span><span class="si">}</span><span class="s2"> | Máximo nulos: </span><span class="si">{</span><span class="n">max_pct_nulos</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[OK] Reporte exportado en: </span><span class="si">{</span><span class="n">ruta_informe</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8310,151 +8402,63 @@ identificador        1
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Rama activa en Git : main
-
-Últimos 10 commits verificables del repositorio:
-81821e0 test: valida dataset procesado con assert y exporta base limpia y bitacora F2
-7d75980 feat: implementa transformaciones por rol y escalamiento RobustScaler en F2
-eaac597 feat: desarrolla exploracion, limpieza interanual e imputacion en F2_Preprocesamiento
-c3498a6 feat: implementa modulo de limpieza interanual, rescate geografico e imputacion en F2/src
-df6618d Merge branch 'main' of https://github.com/Rulman75/proyecto-grupo3-mcdi500
-c313c99 Merge branch 'main' of https://github.com/Rulman75/proyecto-grupo3-mcdi500 (integra README de Ignacio y Fase 1)
-1d0c372 docs: usuarios GitHub corregidos
-5cc5353 feat: actualiza Fase 1 con dataset RETC Base_Maestra_2023_2025.xlsx
-ba936a4 docs: reemplaza README con nuevo conjunto de datos de residuos peligrosos
-75fde4d feat: completa diccionario de variables y validacion del dataset en F1
+<pre>[OK] Criterios verificados -&gt; Filas: 118,280 | Duplicados: 118 | Máximo nulos: 4.03%
+[OK] Reporte exportado en: F1\docs\informe_dataset.md
 </pre>
 </div>
 </div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Elemento del Mapa Conceptual</th>
-<th>Tipo de Elemento</th>
-<th>Estado</th>
-<th>Evidencia Verificable</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>Python 3.14, Pandas 3.1, NumPy 2.5, Scikit-Lea...</td>
-<td>1. Herramientas</td>
-<td>Implementado (F1-F2)</td>
-<td>requirements.txt y celda de verificación de ve...</td>
-</tr>
-<tr>
-<th>1</th>
-<td>Git, GitHub y filtro nbstripout</td>
-<td>1. Herramientas</td>
-<td>Implementado (F1-F2)</td>
-<td>Repositorio Rulman75/proyecto-grupo3-mcdi500 e...</td>
-</tr>
-<tr>
-<th>2</th>
-<td>Carga segura (try/except) y validación de crit...</td>
-<td>2. Procesos</td>
-<td>Implementado (F1)</td>
-<td>F1/notebooks/F1_Definicion.ipynb y F1/docs/inf...</td>
-</tr>
-<tr>
-<th>3</th>
-<td>Limpieza interanual, rescate 2024, imputación ...</td>
-<td>2. Procesos</td>
-<td>Implementado (F2)</td>
-<td>F2/src/preprocesamiento.py y F2/notebooks/F2_P...</td>
-</tr>
-<tr>
-<th>4</th>
-<td>Entorno .venv, kernel grupo3_mcdi500, semilla ...</td>
-<td>3. Flujo reproducible</td>
-<td>Implementado (F1-F2)</td>
-<td>Celda 1 de ambos notebooks y ejecución cruzada...</td>
-</tr>
-<tr>
-<th>5</th>
-<td>Mediana por región / moda por rubro con flag _...</td>
-<td>4. Decisiones técnicas</td>
-<td>Implementado (F2)</td>
-<td>Tablas comparativas en F2 y registro en F2/doc...</td>
-</tr>
-<tr>
-<th>6</th>
-<td>Estructura modular por fases (F1-F4) con raw/ ...</td>
-<td>5. Organización del repositorio</td>
-<td>Implementado (F1-F2)</td>
-<td>Árbol de carpetas del repositorio y README.md</td>
-</tr>
-<tr>
-<th>7</th>
-<td>Secuencia narrativa-código verificada con asse...</td>
-<td>6. Estructura del notebook</td>
-<td>Implementado (F1-F2)</td>
-<td>Salidas ejecutadas en F1_Definicion.html y F2_...</td>
-</tr>
-<tr>
-<th>8</th>
-<td>Refactorización en clases (POO) y recursión je...</td>
-<td>2. Procesos / 4. Decisiones</td>
-<td>Proyectado (Fase 3)</td>
-<td>Carpeta F3/ preparada sobre la base de F2/src/...</td>
-</tr>
-<tr>
-<th>9</th>
-<td>Modelado estadístico y visualización de persis...</td>
-<td>2. Procesos / 4. Decisiones</td>
-<td>Proyectado (Fase 4)</td>
-<td>Carpeta F4/ e indicadores longitudinales en ba...</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f4b35dfe-9dcf-477f-b165-989ee4753b56">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=519105c6-5a7a-4263-bed9-64af4f6603fd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="6.-Reflexi%C3%B3n-T%C3%A9cnica-y-Trazabilidad-(Cierre-de-Fase-1)">6. Reflexión Técnica y Trazabilidad (Cierre de Fase 1)<a class="anchor-link" href="#6.-Reflexi%C3%B3n-T%C3%A9cnica-y-Trazabilidad-(Cierre-de-Fase-1)">¶</a></h2><ul>
-<li><strong>Hallazgos del perfilamiento inicial:</strong> El conjunto de datos oficial del RETC (<code>Base_Maestra_2023_2025.xlsx</code>, <code>118.280 filas × 21 columnas</code>) supera ampliamente los umbrales obligatorios del curso y cubre los 8 roles analíticos requeridos. La exploración sin modificación permitió detectar tempranamente inconsistencias de publicación interanual entre 2023, 2024 y 2025 (<code>19</code> etiquetas regionales para 16 regiones, <code>812</code> variantes en la glosa de <code>peligrosidad</code>, pérdida del punto decimal en las coordenadas de 2024 y <code>4,03%</code> de nulos en <code>id_lista_a</code>), las cuales se delegan íntegramente al pipeline de la Fase 2 respetando la separación de alcances.</li>
-<li><strong>Limitaciones y restricciones declaradas:</strong> La variable temporal (<code>año</code>) posee granularidad anual (<code>2023</code>, <code>2024</code>, <code>2025</code>), por lo que el seguimiento longitudinal evalúa la persistencia interanual de los <code>12.192</code> establecimientos (<code>id_vu</code>) y no variaciones estacionales intra-anuales.</li>
-</ul>
+<h2 id="5.-Auditor%C3%ADa-de-Control-de-Versiones-(Git)-y-Cierre-de-Fase-1">5. Auditoría de Control de Versiones (Git) y Cierre de Fase 1<a class="anchor-link" href="#5.-Auditor%C3%ADa-de-Control-de-Versiones-(Git)-y-Cierre-de-Fase-1">¶</a></h2><p>Se consulta programáticamente el historial reciente de commits del repositorio para dejar evidencia reproducible del flujo colaborativo.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a12d0eb6-0a9f-4b60-8b2a-b6d064bd5f14">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=616bbae9-6960-4db7-8af7-466873b9eac7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+
+<span class="n">res_rama</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">"git"</span><span class="p">,</span> <span class="s2">"rev-parse"</span><span class="p">,</span> <span class="s2">"--abbrev-ref"</span><span class="p">,</span> <span class="s2">"HEAD"</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+<span class="n">res_log</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">"git"</span><span class="p">,</span> <span class="s2">"log"</span><span class="p">,</span> <span class="s2">"--oneline"</span><span class="p">,</span> <span class="s2">"-8"</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Rama activa:"</span><span class="p">,</span> <span class="n">res_rama</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Últimos commits del repositorio:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">res_log</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Rama activa: feat/notebooks-f1-f2-f3
+
+Últimos commits del repositorio:
+32c98de style: restaura indentacion PEP8 en modulos del paquete src
+efefde5 Merge pull request #5 from Rulman75/feat/eficiencia-y-recursividad
+5c7d4ad feat: implementa mediciones timeit/tracemalloc, recursividad CIIU y paquete compartido src
+1989ce3 Merge pull request #4 from Rulman75/feat/pipeline-observer
+fcb93d8 feat: implementa clase Pipeline polimorfica y BitacoraObserver con patron Observer
+fa272ac Merge pull request #3 from Rulman75/feat/transformadores-y-strategy
+19cdbb2 feat: implementa clases hijas ImputadorPorGrupo, CodificadorCategorias, EscaladorRobusto y patron Strategy
+97619f2 Merge pull request #2 from Rulman75/feat/limpieza-y-clase-base
+</pre>
 </div>
 </div>
 </div>
