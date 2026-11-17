@@ -1,30 +1,36 @@
 """
 Módulo de composición del Pipeline polimórfico y registro automático de trazabilidad
-mediante el patrón de diseño Observer (Fase 3 - MCDI500).
+mediante el patrón de diseño Observer con soporte para múltiples observadores (Fase 3 - MCDI500).
 """
 
+from abc import ABC, abstractmethod
 from pathlib import Path
 import time
 import pandas as pd
 from src.transformadores import Transformador
 
 
-class ObservadorPipeline:
-    """Interfaz base para los observadores que escuchan la ejecución del Pipeline (Patrón Observer)."""
+class ObservadorPipeline(ABC):
+    """Interfaz abstracta para los observadores que escuchan la ejecución del Pipeline (Patrón Observer)."""
 
+    @abstractmethod
     def actualizar(self, evento: dict) -> None:
-        raise NotImplementedError
+        """Recibe el diccionario de evento emitido tras cada paso del Pipeline."""
 
 
 class BitacoraObserver(ObservadorPipeline):
     """
-    Observador concreto que registra automáticamente cada etapa ejecutada por el Pipeline
+    Observador concreto 1: Registra automáticamente cada etapa ejecutada por el Pipeline
     y exporta la bitácora técnica actualizada en formato Markdown.
     """
 
     def __init__(self, ruta_salida: str | Path | None = None):
         self.ruta_salida = Path(ruta_salida) if ruta_salida else None
         self.registros: list[dict] = []
+
+    def __repr__(self) -> str:
+        ruta_str = self.ruta_salida.as_posix() if self.ruta_salida else None
+        return f"BitacoraObserver(ruta_salida={ruta_str!r}, eventos_registrados={len(self.registros)})"
 
     def reiniciar(self) -> None:
         self.registros.clear()
@@ -60,10 +66,43 @@ class BitacoraObserver(ObservadorPipeline):
         return ruta_dest
 
 
+class AuditoriaNulosObserver(ObservadorPipeline):
+    """
+    Observador concreto 2: Puede suscribirse al mismo Pipeline sin modificar su código
+    para contabilizar exclusivamente los valores faltantes resueltos por etapa y verificar
+    que el conjunto de salida quede con cero nulos.
+    """
+
+    def __init__(self):
+        self.historial_nulos: list[dict] = []
+
+    def __repr__(self) -> str:
+        return f"AuditoriaNulosObserver(etapas_auditadas={len(self.historial_nulos)})"
+
+    def reiniciar(self) -> None:
+        self.historial_nulos.clear()
+
+    def actualizar(self, evento: dict) -> None:
+        nulos_in = int(evento["nulos_in"])
+        nulos_out = int(evento["nulos_out"])
+        self.historial_nulos.append({
+            "orden": evento["orden"],
+            "paso": evento["paso"],
+            "modo": evento["modo"],
+            "nulos_entrada": nulos_in,
+            "nulos_salida": nulos_out,
+            "nulos_resueltos": nulos_in - nulos_out,
+            "sin_nulos_pendientes": bool(nulos_out == 0),
+        })
+
+    def obtener_reporte(self) -> pd.DataFrame:
+        return pd.DataFrame(self.historial_nulos)
+
+
 class Pipeline:
     """
     Composición secuencial de objetos Transformador que comparten la interfaz común
-    ajustar(df) y transformar(df) (Polimorfismo), con soporte para notificadores (Patrón Observer).
+    ajustar(df) y transformar(df) (Polimorfismo), con soporte para múltiples observadores (Patrón Observer).
     """
 
     def __init__(self, pasos: list[Transformador]):
@@ -72,6 +111,13 @@ class Pipeline:
         self._pasos: list[Transformador] = list(pasos)
         self._ajustado: bool = False
         self._observadores: list[ObservadorPipeline] = []
+
+    def __repr__(self) -> str:
+        nombres_pasos = [p.nombre for p in self._pasos]
+        return (
+            f"Pipeline(pasos={nombres_pasos}, ajustado={self._ajustado}, "
+            f"n_observadores={len(self._observadores)})"
+        )
 
     @property
     def pasos(self) -> list[Transformador]:
@@ -83,6 +129,8 @@ class Pipeline:
 
     def suscribir(self, observador: ObservadorPipeline) -> "Pipeline":
         """Suscribe un observador para recibir notificaciones al finalizar cada paso."""
+        if not isinstance(observador, ObservadorPipeline):
+            raise TypeError("El observador debe heredar de ObservadorPipeline.")
         self._observadores.append(observador)
         return self
 
@@ -96,8 +144,9 @@ class Pipeline:
         if "numericas" in params and "categoricas" in params:
             return f"{len(params['numericas'])} vars numéricas por región y {len(params['categoricas'])} categóricas por rubro"
         if "top_comunas" in params:
+            n_ruts = params.get("n_ruts_unicos", len(params.get("frec_rut_anon", {})))
             return (
-                f"Top-{len(params['top_comunas'])} comunas, {len(params['frec_rut'])} RUTs, "
+                f"Top-{len(params['top_comunas'])} comunas, {n_ruts} RUTs (anonimizados), "
                 f"{len(params['cats_region'])} regiones, {len(params['cats_estado'])} estados"
             )
         return f"{len(params)} variables escaladas con mediana y RIC"
@@ -110,7 +159,7 @@ class Pipeline:
             nulos_in = int(intermedio.isna().sum().sum())
             t0 = time.perf_counter()
 
-            # Polimorfismo: se invoca la misma interfaz sin consultar el tipo concreto de 'paso'
+            # Polimorfismo: se invoca la misma interfaz común sin preguntar el tipo concreto de 'paso'
             intermedio = paso.ajustar(intermedio).transformar(intermedio)
 
             duracion = time.perf_counter() - t0
