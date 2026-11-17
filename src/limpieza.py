@@ -173,14 +173,14 @@ def preprocesar_version_funcional(
 
     # 1. Imputación numérica por región y categórica por id_rubro (sin clases)
     for col in ["latitud", "longitud"]:
-        if df[col].isna().sum() > 0:
+        if True:
             df[f"{col}_imputado"] = df[col].isna().astype(int)
             med_reg = df.groupby("region")[col].median().to_dict()
             respaldo = float(df[col].median()) if pd.notna(df[col].median()) else 0.0
             df[col] = df[col].fillna(df["region"].map(med_reg)).fillna(respaldo)
 
     for col in ["id_lista_a", "id_ciiu4", "ciiu4", "id_ciiu6", "ciiu6", "rubro"]:
-        if df[col].isna().sum() > 0:
+        if True:
             df[f"{col}_imputado"] = df[col].isna().astype(int)
             modas_rubro = (
                 df.groupby("id_rubro")[col]

@@ -261,13 +261,13 @@ class ImputadorPorGrupo(Transformador):
 
     def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
         for col, info in self._parametros["numericas"].items():
-            if info["tenia_nulos"] or df[col].isna().sum() > 0:
+            if info["tenia_nulos"] or True:
                 df[f"{col}_imputado"] = df[col].isna().astype(int)
                 relleno_grp = df[self.col_grupo_num].map(info["por_grupo"])
                 df[col] = df[col].fillna(relleno_grp).fillna(info["respaldo"])
 
         for col, info in self._parametros["categoricas"].items():
-            if info["tenia_nulos"] or df[col].isna().sum() > 0:
+            if info["tenia_nulos"] or True:
                 df[f"{col}_imputado"] = df[col].isna().astype(int)
                 relleno_grp = df[self.col_grupo_cat].map(info["por_grupo"])
                 df[col] = df[col].fillna(relleno_grp).fillna(info["respaldo"])
