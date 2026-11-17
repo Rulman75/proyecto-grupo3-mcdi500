@@ -1,18 +1,27 @@
 """
 Jerarquía de clases orientadas a objetos para el preprocesamiento reproducible (Fase 3 - MCDI500).
-Incluye la clase base Transformador (Encapsulamiento y Contrato Plantilla), las clases derivadas
-(Herencia y Polimorfismo) y las estrategias intercambiables de imputación (Patrón Strategy).
+Incluye la clase base abstracta Transformador (ABC, Encapsulamiento con deepcopy y Contrato Plantilla),
+las clases derivadas (Herencia y Polimorfismo) y las estrategias intercambiables (Patrón Strategy).
 """
 
+from abc import ABC, abstractmethod
+from copy import deepcopy
+import hashlib
 import numpy as np
 import pandas as pd
 
 
-class Transformador:
+def _anonimizar_identificador(valor: object) -> str:
+    """Genera un resumen SHA-256 truncado para no almacenar RUT en texto claro dentro de _parametros."""
+    return hashlib.sha256(str(valor).encode("utf-8")).hexdigest()[:16]
+
+
+class Transformador(ABC):
     """
-    Clase base abstracta que define el contrato común de todos los transformadores del pipeline.
-    Aplica el método plantilla: centraliza la validación de entrada, el control de estado interno
-    (_ajustado y _parametros) y la copia defensiva, delegando aprender() y aplicar() a las subclases.
+    Clase base abstracta (ABC) que define el contrato común de todos los transformadores del pipeline.
+    Centraliza la validación de entrada, el control de estado interno protegido (_ajustado y _parametros),
+    la inmutabilidad externa mediante deepcopy y la copia defensiva del DataFrame, obligando a cada
+    clase hija a implementar los métodos abstractos aprender(df) y aplicar(df).
     """
 
     etiqueta_componente = "transformador_pipeline"
@@ -25,24 +34,30 @@ class Transformador:
         else:
             raise ValueError("El parámetro 'columnas' debe ser un nombre de columna o una lista no vacía.")
 
-        # Encapsulamiento: atributos internos protegidos con guion bajo
+        # Encapsulamiento: atributos internos protegidos con guion bajo inicial
         self._parametros: dict = {}
         self._ajustado: bool = False
 
     @property
     def ajustado(self) -> bool:
-        """Indica si el transformador ya aprendió sus parámetros desde los datos."""
+        """Propiedad de solo lectura que indica si el transformador ya fue ajustado."""
         return self._ajustado
 
     @property
     def parametros(self) -> dict:
-        """Devuelve una copia de solo lectura de los parámetros aprendidos."""
-        return dict(self._parametros)
+        """
+        Devuelve una copia profunda (deepcopy) de solo lectura de los parámetros aprendidos,
+        impidiendo que modificaciones externas alteren el estado interno del transformador.
+        """
+        return deepcopy(self._parametros)
 
     @property
     def nombre(self) -> str:
-        """Nombre identificador de la clase del transformador."""
+        """Nombre identificador de la clase concreta del transformador."""
         return self.__class__.__name__
+
+    def __repr__(self) -> str:
+        return f"{self.nombre}(columnas={self.columnas}, ajustado={self._ajustado})"
 
     def _validar_columnas(self, df: pd.DataFrame) -> None:
         if not isinstance(df, pd.DataFrame):
@@ -54,9 +69,9 @@ class Transformador:
             raise KeyError(f"{self.nombre}: las siguientes columnas no existen en el DataFrame: {faltantes}")
 
     def ajustar(self, df: pd.DataFrame) -> "Transformador":
-        """Verifica las columnas, invoca aprender(df) y activa el estado _ajustado."""
+        """Verifica las columnas, aprende sobre una copia defensiva y activa _ajustado."""
         self._validar_columnas(df)
-        self._parametros = self.aprender(df)
+        self._parametros = self.aprender(df.copy())
         self._ajustado = True
         return self
 
@@ -73,29 +88,33 @@ class Transformador:
         """Ajusta los parámetros con df y devuelve el DataFrame transformado."""
         return self.ajustar(df).transformar(df)
 
+    @abstractmethod
     def aprender(self, df: pd.DataFrame) -> dict:
-        """Método gancho que cada clase hija debe sobrescribir para calcular sus parámetros."""
-        raise NotImplementedError(f"La subclase '{self.nombre}' debe implementar el método aprender(df).")
+        """Método abstracto que cada clase hija debe implementar para calcular sus parámetros."""
 
+    @abstractmethod
     def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Método gancho que cada clase hija debe sobrescribir para transformar la copia del DataFrame."""
-        raise NotImplementedError(f"La subclase '{self.nombre}' debe implementar el método aplicar(df).")
-
+        """Método abstracto que cada clase hija debe implementar para transformar la copia del DataFrame."""
 
 
 # =====================================================================
 # PATRÓN STRATEGY: Estrategias intercambiables para imputación numérica
 # =====================================================================
 
-class EstrategiaImputacion:
-    """Contrato común para las estrategias de manejo de valores faltantes (Patrón Strategy)."""
+class EstrategiaImputacion(ABC):
+    """Contrato abstracto común para las estrategias de manejo de valores faltantes (Patrón Strategy)."""
     nombre = "estrategia_base"
 
-    def aprender_parametros(self, df: pd.DataFrame, columna: str) -> dict:
-        raise NotImplementedError
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(nombre='{self.nombre}')"
 
+    @abstractmethod
+    def aprender_parametros(self, df: pd.DataFrame, columna: str) -> dict:
+        """Calcula los estadísticos requeridos por la estrategia."""
+
+    @abstractmethod
     def aplicar_estrategia(self, df: pd.DataFrame, columna: str, params: dict) -> pd.DataFrame:
-        raise NotImplementedError
+        """Aplica la estrategia de tratamiento de valores faltantes sobre df."""
 
 
 class EstrategiaEliminarFilas(EstrategiaImputacion):
@@ -140,6 +159,9 @@ class EstrategiaMedianaPorGrupo(EstrategiaImputacion):
         self.col_grupo = col_grupo
         self.nombre = f"4. Mediana agrupada por '{col_grupo}' (Elegida)"
 
+    def __repr__(self) -> str:
+        return f"EstrategiaMedianaPorGrupo(col_grupo='{self.col_grupo}')"
+
     def aprender_parametros(self, df: pd.DataFrame, columna: str) -> dict:
         medianas_grp = df.groupby(self.col_grupo)[columna].median().to_dict()
         mediana_global = float(df[columna].median())
@@ -158,9 +180,17 @@ class ImputadorFlexible(Transformador):
     """
 
     def __init__(self, columna: str, estrategia: EstrategiaImputacion):
+        if not isinstance(estrategia, EstrategiaImputacion):
+            raise TypeError("El parámetro 'estrategia' debe heredar de EstrategiaImputacion.")
         super().__init__(columna)
         self.columna = columna
         self.estrategia = estrategia
+
+    def __repr__(self) -> str:
+        return (
+            f"ImputadorFlexible(columna='{self.columna}', "
+            f"estrategia={self.estrategia!r}, ajustado={self._ajustado})"
+        )
 
     def aprender(self, df: pd.DataFrame) -> dict:
         return self.estrategia.aprender_parametros(df, self.columna)
@@ -188,11 +218,19 @@ class ImputadorPorGrupo(Transformador):
         col_grupo_cat: str = "id_rubro",
     ):
         todas = list(cols_numericas) + list(cols_categoricas) + [col_grupo_num, col_grupo_cat]
-        super().__init__( list(dict.fromkeys(todas)) )
+        super().__init__(list(dict.fromkeys(todas)))
         self.cols_numericas = list(cols_numericas)
         self.cols_categoricas = list(cols_categoricas)
         self.col_grupo_num = col_grupo_num
         self.col_grupo_cat = col_grupo_cat
+
+    def __repr__(self) -> str:
+        return (
+            f"ImputadorPorGrupo(cols_numericas={self.cols_numericas}, "
+            f"cols_categoricas={self.cols_categoricas}, "
+            f"col_grupo_num='{self.col_grupo_num}', col_grupo_cat='{self.col_grupo_cat}', "
+            f"ajustado={self._ajustado})"
+        )
 
     def aprender(self, df: pd.DataFrame) -> dict:
         params_num = {}
@@ -240,8 +278,8 @@ class ImputadorPorGrupo(Transformador):
 class CodificadorCategorias(Transformador):
     """
     Clase Hija 2: Aprende el ranking de las Top-10 comunas, los mapas de frecuencia de alta
-    cardinalidad ('rut_razon_social', 'id_ciiu4', 'id_lista_a') y los vocabularios canónicos
-    para la codificación One-Hot de 'region', 'estado_materia' y 'comuna_agrupada'.
+    cardinalidad ('rut_razon_social' anonimizado con SHA-256, 'id_ciiu4', 'id_lista_a') y los
+    vocabularios canónicos para la codificación One-Hot de 'region', 'estado_materia' y 'comuna_agrupada'.
     """
 
     def __init__(self, top_n_comunas: int = 10):
@@ -249,13 +287,18 @@ class CodificadorCategorias(Transformador):
         super().__init__(columnas_req)
         self.top_n_comunas = top_n_comunas
 
+    def __repr__(self) -> str:
+        return f"CodificadorCategorias(top_n_comunas={self.top_n_comunas}, ajustado={self._ajustado})"
+
     def aprender(self, df: pd.DataFrame) -> dict:
         top_comunas = df["comuna"].value_counts().nlargest(self.top_n_comunas).index.tolist()
         comuna_agrupada = df["comuna"].where(df["comuna"].isin(top_comunas), "OTROS")
+        ruts_anon = df["rut_razon_social"].map(_anonimizar_identificador)
 
         return {
             "top_comunas": top_comunas,
-            "frec_rut": df["rut_razon_social"].value_counts().to_dict(),
+            "frec_rut_anon": ruts_anon.value_counts().to_dict(),
+            "n_ruts_unicos": int(ruts_anon.nunique()),
             "frec_ciiu4": df["id_ciiu4"].value_counts().to_dict(),
             "frec_lista_a": df["id_lista_a"].value_counts().to_dict(),
             "cats_region": sorted(df["region"].dropna().unique().tolist()),
@@ -267,8 +310,9 @@ class CodificadorCategorias(Transformador):
         p = self._parametros
         df["comuna_agrupada"] = df["comuna"].where(df["comuna"].isin(p["top_comunas"]), "OTROS")
 
-        # Codificación por frecuencia (anonimiza rut_razon_social reemplazándolo por su frecuencia)
-        df["frecuencia_declaraciones_rut"] = df["rut_razon_social"].map(p["frec_rut"]).fillna(0).astype(int)
+        # Codificación por frecuencia usando llaves hash SHA-256 (nunca expone RUTs en _parametros)
+        ruts_anon = df["rut_razon_social"].map(_anonimizar_identificador)
+        df["frecuencia_declaraciones_rut"] = ruts_anon.map(p["frec_rut_anon"]).fillna(0).astype(int)
         df["frecuencia_ciiu4"] = df["id_ciiu4"].map(p["frec_ciiu4"]).fillna(0).astype(int)
         df["frecuencia_lista_a"] = df["id_lista_a"].map(p["frec_lista_a"]).fillna(0).astype(int)
 
@@ -293,6 +337,12 @@ class EscaladorRobusto(Transformador):
     def __init__(self, columnas: list[str], descartar_texto: bool = True):
         super().__init__(columnas)
         self.descartar_texto = descartar_texto
+
+    def __repr__(self) -> str:
+        return (
+            f"EscaladorRobusto(columnas={self.columnas}, "
+            f"descartar_texto={self.descartar_texto}, ajustado={self._ajustado})"
+        )
 
     def aprender(self, df: pd.DataFrame) -> dict:
         estadisticos = {}
