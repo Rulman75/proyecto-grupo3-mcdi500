@@ -28,7 +28,8 @@ def cargar_datos_seguro(
     try:
         if not ruta.exists():
             raise FileNotFoundError(
-                f"El archivo no existe en '{ruta}'. Descárguelo desde https://datos.gob.cl/dataset/generacion-de-residuos-peligrosos "
+                f"El archivo no existe en '{ruta.as_posix()}'. Descárguelo desde "
+                "https://datos.gob.cl/dataset/generacion-de-residuos-peligrosos "
                 "y ubíquelo en F1/data/raw/Base_Maestra_2023_2025.xlsx según las instrucciones del README.md."
             )
         if ruta.suffix.lower() in {".xlsx", ".xls"}:
