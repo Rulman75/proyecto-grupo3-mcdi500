@@ -1,0 +1,19 @@
+{
+  "fase": "F4",
+  "fecha_ejecucion": "2026-11-20",
+  "semilla": 42,
+  "python": "3.14.10",
+  "entradas": [
+    "F2/data/processed/entrenamiento_f3.csv",
+    "F2/data/processed/prueba_f3.csv",
+    "F2/data/processed/diccionario_f3.csv",
+    "F2/data/processed/parametros_f3.csv"
+  ],
+  "figuras": [
+    "F4/figuras/fig1_persistencia_vs_rotacion.png",
+    "F4/figuras/fig2_evolucion_y_concentracion_rubros.png",
+    "F4/figuras/fig3_gradiente_regional_gran_generador.png",
+    "F4/figuras/fig4_control_confusion_y_factor_mentira.png"
+  ],
+  "controles_superados": 6
+}
