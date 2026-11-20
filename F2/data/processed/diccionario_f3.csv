@@ -1,0 +1,62 @@
+orden,columna,dtype
+1,año,int64
+2,id_vu,int64
+3,id_rubro,int64
+4,codigo_territorial,int64
+5,latitud,float64
+6,longitud,float64
+7,cantidad_kg,float64
+8,id_estado_materia,int64
+9,n_anios_declarados_vu,int64
+10,es_generador_persistente_bin,int64
+11,n_peligrosidades,int64
+12,multi_peligrosidad_bin,int64
+13,es_gran_generador_bin,int64
+14,anio_indice,int64
+15,latitud_imputado,int64
+16,longitud_imputado,int64
+17,id_lista_a_imputado,int64
+18,id_ciiu4_imputado,int64
+19,ciiu4_imputado,int64
+20,id_ciiu6_imputado,int64
+21,ciiu6_imputado,int64
+22,rubro_imputado,int64
+23,frecuencia_declaraciones_rut,int64
+24,frecuencia_ciiu4,int64
+25,frecuencia_lista_a,int64
+26,reg_Antofagasta,int64
+27,reg_Arica y Parinacota,int64
+28,reg_Atacama,int64
+29,reg_Aysén del General Carlos Ibáñez del Campo,int64
+30,reg_Biobío,int64
+31,reg_Coquimbo,int64
+32,reg_La Araucanía,int64
+33,reg_Libertador General Bernardo O'Higgins,int64
+34,reg_Los Lagos,int64
+35,reg_Los Ríos,int64
+36,reg_Magallanes y de la Antártica Chilena,int64
+37,reg_Maule,int64
+38,reg_Metropolitana de Santiago,int64
+39,reg_Tarapacá,int64
+40,reg_Valparaíso,int64
+41,reg_Ñuble,int64
+42,estado_gaseoso,int64
+43,estado_lodo,int64
+44,estado_líquido,int64
+45,estado_sólido,int64
+46,comuna_top_Antofagasta,int64
+47,comuna_top_Concepción,int64
+48,comuna_top_Maipú,int64
+49,comuna_top_OTROS,int64
+50,comuna_top_Osorno,int64
+51,comuna_top_Pudahuel,int64
+52,comuna_top_Puerto Montt,int64
+53,comuna_top_Quilicura,int64
+54,comuna_top_San Bernardo,int64
+55,comuna_top_Talcahuano,int64
+56,comuna_top_Viña del Mar,int64
+57,cantidad_kg_rob,float64
+58,latitud_rob,float64
+59,longitud_rob,float64
+60,frecuencia_declaraciones_rut_rob,float64
+61,n_peligrosidades_rob,float64
