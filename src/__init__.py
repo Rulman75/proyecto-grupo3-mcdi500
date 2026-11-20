@@ -54,6 +54,7 @@ from src.comunicacion import (
     reconstruir_categorias,
     revertir_escalamiento,
     tasa_por_grupo,
-)ctorizada,
+)
+ctorizada,
     sumar_volumen_recursivo,
 )
