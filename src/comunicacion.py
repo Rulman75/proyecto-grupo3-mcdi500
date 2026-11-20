@@ -94,12 +94,13 @@ def cargar_artefactos(carpeta: str | Path = "F2/data/processed") -> dict[str, pd
 def leer_parametros(tabla_parametros: pd.DataFrame) -> dict:
     """
     Convierte la tabla de parámetros de la Fase 3 en un diccionario seguro en memoria
-    empleando ast.literal_eval (sin ejecutar código arbitrario).
+    empleando ast.literal_eval (normalizando previamente valores nan a None).
     """
     parametros = {}
     for _, fila in tabla_parametros.iterrows():
         try:
-            parametros[str(fila["paso"])] = ast.literal_eval(str(fila["parametros"]))
+            texto_limpio = str(fila["parametros"]).replace(": nan,", ": None,").replace(": nan}", ": None}")
+            parametros[str(fila["paso"])] = ast.literal_eval(texto_limpio)
         except (ValueError, SyntaxError) as error:
             raise ValueError(
                 f"Parámetros ilegibles en el paso {fila['paso']}: {fila['parametros']!r}"
@@ -154,8 +155,12 @@ def reconstruir_categorias(df: pd.DataFrame, parametros: dict) -> pd.DataFrame:
     # Reconstruir la glosa sectorial 'rubro_nombre' directamente desde los parámetros aprendidos en Fase 3
     if "ImputadorPorGrupo" in parametros and "id_rubro" in resultado.columns:
         info_rubro = parametros["ImputadorPorGrupo"].get("categoricas", {}).get("rubro", {})
-        mapa_rubro = {int(k): str(v) for k, v in info_rubro.get("por_grupo", {}).items()}
-        respaldo_rubro = str(info_rubro.get("respaldo", "Otros"))
+        mapa_rubro = {
+            int(k): str(v)
+            for k, v in info_rubro.get("por_grupo", {}).items()
+            if v is not None and str(v) != "nan"
+        }
+        respaldo_rubro = str(info_rubro.get("respaldo", "Otras actividades"))
         resultado["rubro_nombre"] = resultado["id_rubro"].map(mapa_rubro).fillna(respaldo_rubro)
 
     return resultado
