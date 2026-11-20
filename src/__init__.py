@@ -55,6 +55,3 @@ from src.comunicacion import (
     revertir_escalamiento,
     tasa_por_grupo,
 )
-ctorizada,
-    sumar_volumen_recursivo,
-)
