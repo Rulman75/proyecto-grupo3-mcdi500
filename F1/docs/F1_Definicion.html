@@ -7810,19 +7810,18 @@ a.anchor-link {
 <ul>
 <li><strong>Pregunta del proyecto:</strong> <em>¿Qué establecimientos (<code>id_vu</code>) se mantienen como generadores de residuos peligrosos entre 2023, 2024 y 2025, cuánto varía su volumen (<code>cantidad_kg</code>) año a año, y qué parte del cambio total se explica por establecimientos que entran o salen del registro?</em></li>
 <li><strong>Objetivo General Analítico:</strong> <em>Determinar la persistencia interanual de los establecimientos generadores de residuos peligrosos en Chile durante el trienio 2023–2025 y cuantificar el peso relativo del núcleo persistente frente a la entrada y salida de establecimientos en la variación del volumen total declarado, según región y rubro productivo.</em></li>
-<li><strong>Objetivos Específicos (vinculados con las figuras explicativas de la Fase 4):</strong><ol>
-<li><strong>OE1 (Contexto):</strong> <em>Cuantificar la proporción de establecimientos únicos (<code>id_vu</code>) que conforman el núcleo persistente (3 años) frente a los declarantes intermitentes (2 años) u ocasionales (1 año), contrastando su peso en el padrón frente a su participación en la masa total declarada (<code>Figura 1</code> de Fase 4).</em></li>
-<li><strong>OE2 (Contraste temporal y sectorial):</strong> <em>Descomponer la variación interanual del volumen declarado entre 2023, 2024 y 2025 según trayectoria de persistencia e identificar los rubros productivos que concentran la masa del núcleo permanente (<code>Figura 2</code> de Fase 4).</em></li>
-<li><strong>OE3 (Resolución regional y control de confusión):</strong> <em>Caracterizar la proporción regional de declaraciones de Gran Generador (<code>&gt;= 12 toneladas/año</code>, D.S. N° 148 Art. 25) con intervalos de confianza de Wilson al 95 %, evaluando si la asociación entre persistencia y gran generación se mantiene al controlar por el rubro minero como variable de confusión (<code>Figuras 3 y 4</code> de Fase 4).</em></li>
+<li><strong>Objetivos Específicos:</strong><ol>
+<li><strong>OE1:</strong> <em>Cuantificar la proporción de establecimientos únicos (<code>id_vu</code>) que conforman el núcleo persistente (3 años) frente a los declarantes intermitentes (2 años) u ocasionales (1 año), evaluando su participación en el volumen total declarado y el grado de concentración en el 1 % y 10 % superior de los establecimientos.</em></li>
+<li><strong>OE2:</strong> <em>Descomponer la variación interanual del volumen declarado entre 2023, 2024 y 2025 en el aporte de los establecimientos persistentes, entrantes y salientes, identificando los rubros productivos que concentran la masa del padrón.</em></li>
+<li><strong>OE3:</strong> <em>Caracterizar por establecimiento la proporción regional de Grandes Generadores (<code>&gt;= 12 toneladas/año</code>, D.S. N° 148 Art. 25) con intervalos de confianza de Wilson al 95 %, evaluando si la asociación entre persistencia trienal y gran generación se mantiene al controlar por el rubro minero y la macrozona geográfica.</em></li>
 </ol>
 </li>
 <li><strong>Alcance, Restricciones y Supuestos (Categorías separadas):</strong><ul>
 <li><strong>Alcance:</strong> Análisis longitudinal descriptivo y estratificado de las declaraciones anuales de generación de residuos peligrosos en las 16 regiones de Chile durante 2023–2025 (<code>118.141</code> registros válidos de <code>12.189</code> establecimientos); quedan fuera del alcance la inferencia causal y el seguimiento de destinatarios finales.</li>
 <li><strong>Restricciones:</strong> Cobertura temporal acotada a tres años calendario (2023–2025), presencia de <code>4,01 %</code> de valores faltantes en <code>id_lista_a</code> en 2023–2024, pérdida de punto decimal en coordenadas de 2024 y obligación ética de anonimizar <code>rut_razon_social</code> (<code>398</code> RUT de personas naturales).</li>
-<li><strong>Supuestos:</strong> Se asume que el código <code>id_vu</code> identifica de forma consistente a cada instalación física en el trienio y que los volúmenes <code>cantidad_kg</code> depurados reflejan registros validados por el Ministerio del Medio Ambiente.
-o.*</li>
 </ul>
 </li>
+<li><strong>Supuestos:</strong> Se asume que el código <code>id_vu</code> identifica de forma consistente a cada instalación física en el trienio y que los volúmenes <code>cantidad_kg</code> depurados reflejan registros validados por el Ministerio del Medio Ambiente.</li>
 </ul>
 </div>
 </div>
@@ -8490,17 +8489,17 @@ Dimensiones originales: 118,280 filas × 21 columnas
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Rama activa: feat/consolidacion-f1-f4-y-ejecucion-limpia
+<pre>Rama activa: docs/f4-readme-changelog-y-ejecucion-final
 
 Últimos commits del repositorio:
-80bd39a Merge pull request #15 from Rulman75/feat/notebook-f4-pruebas-y-changelog
-c0e7e8a feat(f4): construye notebook F4 desde artefactos F3, agrega tests F4 (18 passed) y CHANGELOG.md
-86250d0 Merge pull request #14 from Rulman75/feat/artefactos-f3-y-modulo-comunicacion
-3a8c1bc fix(src): elimina lineas sobrantes al final de init
-6cec18d feat(f4): crea modulo src/comunicacion.py y exporta los 4 artefactos formales desde F3
-909fd4c feat(f4): crea modulo src/comunicacion.py y exporta los 4 artefactos formales desde F3
-5cdb7a4 Merge pull request #13 from Rulman75/fix/ejecuta-salidas-notebooks
-2ffe268 docs(notebooks): ejecuta todas las celdas de F1, F2 y F3 sin rutas absolutas y regenera HTML
+2389181 Merge pull request #19 from Rulman75/feat/f4-unidad-establecimiento-figuras-y-tests
+be3e235 feat(f4): cambia unidad de analisis a establecimiento (N=12189), agrega Lorenz, desglose CIIU4, criterio IC95% y doble control en Figuras 1-4 (21 passed)
+4e1a14e Merge pull request #18 from Rulman75/fix/f1-objetivos-src-descomposicion-y-lorenz
+0788b05 fix(f1,src): mantiene objetivos F1 sin ref a figuras, fija requirements con == y agrega descomposicion, Lorenz e id_vu en src/comunicacion.py
+05be168 Merge pull request #17 from Rulman75/fix/ejecuta-f4-y-exporta-figuras
+2b5fa5b fix(f4): ejecuta todas las celdas de F4 y exporta las 4 figuras a 200 dpi, hallazgos y HTML
+4d8fb14 Merge pull request #16 from Rulman75/feat/consolidacion-f1-f4-y-ejecucion-limpia
+b3548ee docs(f1-f4): alinea objetivos especificos OE1-OE3, ejecuta pipeline F1-&gt;F4 y exporta figuras a 200 dpi y HTML
 </pre>
 </div>
 </div>
