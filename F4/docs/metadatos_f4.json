@@ -1,19 +1,26 @@
 {
-  "fase": "F4",
-  "fecha_ejecucion": "2026-11-20",
-  "semilla": 42,
-  "python": "3.14.10",
-  "entradas": [
-    "F2/data/processed/entrenamiento_f3.csv",
-    "F2/data/processed/prueba_f3.csv",
-    "F2/data/processed/diccionario_f3.csv",
-    "F2/data/processed/parametros_f3.csv"
+  "fase": "Fase 4 — Consolidación, visualización y comunicación de resultados",
+  "integrantes_activos": [
+    "Victoria Álvarez Pinto",
+    "Ignacio Peña Pizarro",
+    "Raúl Hormazábal Figueroa"
   ],
-  "figuras": [
-    "F4/figuras/fig1_persistencia_vs_rotacion.png",
-    "F4/figuras/fig2_evolucion_y_concentracion_rubros.png",
-    "F4/figuras/fig3_gradiente_regional_gran_generador.png",
-    "F4/figuras/fig4_control_confusion_y_factor_mentira.png"
+  "python_version": "3.14.10",
+  "sha256_base_maestra": "7de8ff0ed46488dcc52a551788d12bc3e9c6599a7b9afd1c30eb1139c60dc44b",
+  "n_declaraciones": 118141,
+  "n_establecimientos_unicos": 12189,
+  "n_establecimiento_anio": 28099,
+  "toneladas_totales": 1942051.19,
+  "gini_total": 0.956681,
+  "gini_nucleo_persistente": 0.942117,
+  "top1_pct_nucleo_share": 71.204,
+  "top10_pct_nucleo_share": 91.9738,
+  "tasa_gran_generador_establecimiento_pct": 24.2,
+  "figuras_exportadas_200dpi": [
+    "fig1_persistencia_vs_rotacion.png",
+    "fig2_evolucion_y_concentracion_rubros.png",
+    "fig3_gradiente_regional_gran_generador.png",
+    "fig4_control_confusion_y_factor_mentira.png"
   ],
-  "controles_superados": 6
+  "pytest_total_passed": 21
 }
