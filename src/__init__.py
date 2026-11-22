@@ -45,13 +45,23 @@ from src.medicion import (
 )
 from src.comunicacion import (
     ARTEFACTOS_F3,
+    REGIONES_MACROZONA_NORTE,
+    SHA256_BASE_MAESTRA_OFICIAL,
+    auditar_rotacion_administrativa,
+    calcular_concentracion_y_lorenz,
     cargar_artefactos,
     copia_interpretable,
+    descomponer_cambio_interanual,
     exportar_artefactos_f3,
+    fmt_dec,
+    fmt_miles,
+    fmt_pct,
     guardar_figura,
     intervalo_wilson,
     leer_parametros,
     reconstruir_categorias,
+    resumir_por_establecimiento,
     revertir_escalamiento,
     tasa_por_grupo,
+    verificar_sha256_origen,
 )
